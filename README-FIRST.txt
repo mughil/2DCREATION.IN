@@ -12,10 +12,12 @@ IMAGE VERIFICATION
   photographs.
 - The original image files, pixels, dimensions, and image presentation are
   unchanged. No image was cropped, removed, altered, or recompressed.
-- The homepage now loads the images from assets/images/embedded instead of
-  carrying duplicate base64 image payloads inside the HTML. This reduces the
-  homepage document from about 820 KB to about 88 KB and allows below-the-fold
-  garment images to use native lazy loading.
+- The 17 homepage image files are placed beside index.html and
+  OPEN-THIS-FIRST.html. These root-level paths avoid the missing nested-folder
+  URLs that previously returned HTTP 404 responses after deployment.
+- Upload index.html together with all 17 embedded-*.webp files. The homepage
+  remains about 88 KB and below-the-fold garment images retain native lazy
+  loading.
 
 FORM TESTING
 The FormSubmit enquiry form cannot submit from a local file:// page. Test the
