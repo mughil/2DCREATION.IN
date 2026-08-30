@@ -272,13 +272,9 @@ ol,ul{margin:0;padding:0;list-style:none}
 /* ---- SERVICES ---- */
 .services{background:linear-gradient(180deg,#22301A 0%,#253317 45%,#22301A 100%);overflow:hidden;padding-bottom:120px}
 .svc-head{display:block}
-.svc-view{margin-top:58px;position:relative;
-  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%);
-  mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%)}
-.svc-track{display:flex;gap:22px;width:max-content;animation:marq 62s linear infinite}
-.svc-view:hover .svc-track,.svc-view:focus-within .svc-track{animation-play-state:paused}
-@keyframes marq{from{transform:translateX(0)}to{transform:translateX(calc(-50% - 11px))}}
-.svc-card{position:relative;width:252px;flex:none;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);
+.svc-view{margin-top:58px;position:relative}
+.svc-track{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;width:min(1180px,calc(100% - 48px));margin-inline:auto}
+.svc-card{position:relative;min-width:0;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);
   border-radius:22px;padding:24px 24px 34px;min-height:302px;overflow:hidden;transition:background .3s,transform .3s,border-color .3s}
 .svc-card:hover{background:rgba(255,255,255,.09);border-color:rgba(224,139,62,.45);transform:translateY(-5px)}
 .svc-card .n{position:absolute;top:24px;right:24px;font-family:var(--display);font-size:11.5px;font-weight:800;
@@ -324,13 +320,13 @@ ol,ul{margin:0;padding:0;list-style:none}
   width:calc(var(--h)*var(--ar)*1px*var(--cs));
   background-repeat:no-repeat;background-position:center center;background-size:contain}
 .l-oeko{--h:46;--ar:2.7381}.l-wrap{--h:66;--ar:1.0625}.l-disney{--h:50;--ar:2.4574}.l-bci{--h:44;--ar:2.8228}.l-bsci{--h:56;--ar:2.2037}.l-smeta{--h:42;--ar:3.0256}.l-grs{--h:54;--ar:2.1132}
-.cert-marquee.logos-ready .l-oeko{background-image:var(--lg-oeko)}
-.cert-marquee.logos-ready .l-wrap{background-image:var(--lg-wrap)}
-.cert-marquee.logos-ready .l-disney{background-image:var(--lg-disney)}
-.cert-marquee.logos-ready .l-bci{background-image:var(--lg-bci)}
-.cert-marquee.logos-ready .l-bsci{background-image:var(--lg-bsci)}
-.cert-marquee.logos-ready .l-smeta{background-image:var(--lg-smeta)}
-.cert-marquee.logos-ready .l-grs{background-image:var(--lg-grs)}
+.l-oeko{background-image:var(--lg-oeko)}
+.l-wrap{background-image:var(--lg-wrap)}
+.l-disney{background-image:var(--lg-disney)}
+.l-bci{background-image:var(--lg-bci)}
+.l-bsci{background-image:var(--lg-bsci)}
+.l-smeta{background-image:var(--lg-smeta)}
+.l-grs{background-image:var(--lg-grs)}
 @keyframes certLine{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* ---- APPAREL CAPABILITIES ---- */
@@ -447,7 +443,7 @@ label.f.err input,label.f.err textarea{border-color:#B4402A;box-shadow:0 0 0 3px
   font-size:13px;color:#E3E8DE}
 
 /* ---- REVEAL ---- */
-.rv{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s cubic-bezier(.22,.61,.36,1)}
+.rv{opacity:1;transform:none;transition:opacity .6s ease,transform .6s cubic-bezier(.22,.61,.36,1)}
 .rv.in{opacity:1;transform:none}
 
 /* ============ RESPONSIVE ============ */
@@ -467,6 +463,7 @@ label.f.err input,label.f.err textarea{border-color:#B4402A;box-shadow:0 0 0 3px
   .contact p.intro{max-width:560px}
   .cdetails,.maps-btn{max-width:620px}
   .stages{grid-template-columns:1fr 1fr}
+  .svc-track{grid-template-columns:repeat(2,minmax(0,1fr));width:min(720px,calc(100% - 40px))}
   .stages li{padding-left:22px;border-top:0}
   .stages li:first-child{padding-left:22px;border-left:1px solid var(--line)}
   .stages li:nth-child(n+3){border-top:1px solid var(--line)}
@@ -494,6 +491,8 @@ label.f.err input,label.f.err textarea{border-color:#B4402A;box-shadow:0 0 0 3px
   .apparel-description{font-size:14.5px}
   .apparel-controls{align-self:flex-end}
   .stages{grid-template-columns:1fr}
+  .svc-view{margin-top:40px}
+  .svc-track{grid-template-columns:1fr;width:calc(100% - 34px);gap:16px}
   .stages li{border-left:1px solid var(--line);border-top:0}
   .stages li+li{border-top:1px solid var(--line)}
   .contact-grid{gap:40px}
@@ -707,7 +706,16 @@ body.dialog-open{overflow:hidden}
     </div>
   </div>
   <div class="svc-view" id="svcView">
-    <div class="svc-track" id="svcTrack" role="list" aria-label="Our services"></div>
+    <div class="svc-track" id="svcTrack" role="list" aria-label="Our services">
+      <article class="svc-card" role="listitem"><span class="tile"><svg class="ico" aria-hidden="true"><use href="#i-palette"/></svg></span><span class="n">01</span><h3>Designing</h3><p>Commercial design direction shaped around your market, range plan, and customer.</p><span class="line"></span></article>
+      <article class="svc-card" role="listitem"><span class="tile"><svg class="ico" aria-hidden="true"><use href="#i-sparkles"/></svg></span><span class="n">02</span><h3>Product Development</h3><p>From concept review to construction decisions, every detail is resolved early.</p><span class="line"></span></article>
+      <article class="svc-card" role="listitem"><span class="tile"><svg class="ico" aria-hidden="true"><use href="#i-scissors"/></svg></span><span class="n">03</span><h3>Fabric Sourcing</h3><p>Material options are evaluated for hand feel, performance, cost, and availability.</p><span class="line"></span></article>
+      <article class="svc-card" role="listitem"><span class="tile"><svg class="ico" aria-hidden="true"><use href="#i-shirt"/></svg></span><span class="n">04</span><h3>Sampling</h3><p>Structured sample rounds turn technical intent into an aligned, production-ready garment.</p><span class="line"></span></article>
+      <article class="svc-card" role="listitem"><span class="tile"><svg class="ico" aria-hidden="true"><use href="#i-factory"/></svg></span><span class="n">05</span><h3>Production</h3><p>Capacity, milestones, and dependencies are coordinated through a clear production plan.</p><span class="line"></span></article>
+      <article class="svc-card" role="listitem"><span class="tile"><svg class="ico" aria-hidden="true"><use href="#i-shield"/></svg></span><span class="n">06</span><h3>Quality Control</h3><p>Checks are planned at critical stages to support consistency and traceability.</p><span class="line"></span></article>
+      <article class="svc-card" role="listitem"><span class="tile"><svg class="ico" aria-hidden="true"><use href="#i-clipboard"/></svg></span><span class="n">07</span><h3>Merchandising</h3><p>A dedicated point of coordination keeps approvals, updates, and priorities visible.</p><span class="line"></span></article>
+      <article class="svc-card" role="listitem"><span class="tile"><svg class="ico" aria-hidden="true"><use href="#i-ship"/></svg></span><span class="n">08</span><h3>Shipping &amp; Logistics</h3><p>Documentation and shipment readiness are coordinated through final handover.</p><span class="line"></span></article>
+    </div>
   </div>
 </section>
 
@@ -968,40 +976,6 @@ body.dialog-open{overflow:hidden}
       if(id === "#quote"){ setTimeout(function(){ var n=document.getElementById("f-name"); if(n) n.focus({preventScroll:true}); }, reduce?0:700); }
     });
   });
-
-  /* ---- services cards ---- */
-  var SERVICES = [
-    ["i-palette","Designing","Commercial design direction shaped around your market, range plan, and customer."],
-    ["i-sparkles","Product Development","From concept review to construction decisions, every detail is resolved early."],
-    ["i-scissors","Fabric Sourcing","Material options are evaluated for hand feel, performance, cost, and availability."],
-    ["i-shirt","Sampling","Structured sample rounds turn technical intent into an aligned, production-ready garment."],
-    ["i-factory","Production","Capacity, milestones, and dependencies are coordinated through a clear production plan."],
-    ["i-shield","Quality Control","Checks are planned at critical stages to support consistency and traceability."],
-    ["i-clipboard","Merchandising","A dedicated point of coordination keeps approvals, updates, and priorities visible."],
-    ["i-ship","Shipping & Logistics","Documentation and shipment readiness are coordinated through final handover."]
-  ];
-  var track = document.getElementById("svcTrack");
-  function cardHTML(s, i, clone){
-    return '<article class="svc-card"' + (clone ? ' aria-hidden="true"' : ' role="listitem"') + '>' +
-      '<span class="tile"><svg class="ico"><use href="#' + s[0] + '"/></svg></span>' +
-      '<span class="n">' + String(i+1).padStart(2,"0") + '</span>' +
-      '<h3>' + s[1] + '</h3><p>' + s[2] + '</p><span class="line"></span></article>';
-  }
-  var servicesPopulated = false;
-  function populateServices(){
-    if(servicesPopulated) return;
-    servicesPopulated = true;
-    track.innerHTML = SERVICES.map(function(s,i){ return cardHTML(s,i,false); }).join("") +
-                      SERVICES.map(function(s,i){ return cardHTML(s,i,true); }).join("");
-  }
-  if("IntersectionObserver" in window){
-    var servicesObserver = new IntersectionObserver(function(entries){
-      if(entries[0].isIntersecting){ populateServices(); servicesObserver.disconnect(); }
-    },{rootMargin:"500px 0px"});
-    servicesObserver.observe(track);
-  }else{
-    window.setTimeout(populateServices,0);
-  }
 
   /* ---- lazy certification-logo backgrounds ---- */
   var certMarquee = document.querySelector(".cert-marquee");
