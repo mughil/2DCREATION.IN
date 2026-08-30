@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Privacy-first Google Analytics 4 -->
-<link rel="stylesheet" href="./analytics-consent.v1.css">
-<script defer src="./analytics-consent.v1.js"></script>
-<script>if("scrollRestoration" in history){history.scrollRestoration="manual";}window.addEventListener("pageshow",function(){if(!location.hash){window.scrollTo(0,0);}});</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Privacy-first Google Analytics 4 -->
+<link rel="preload" href="./analytics-consent.v1.css" as="style">
+<link rel="stylesheet" href="./analytics-consent.v1.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="./analytics-consent.v1.css"></noscript>
+<script defer src="./analytics-consent.v1.js"></script>
+<script>if("scrollRestoration" in history){history.scrollRestoration="manual";}window.addEventListener("pageshow",function(){if(!location.hash){window.scrollTo(0,0);}});</script>
 <link rel="preload" href="./assets/fonts/poppins-black-sourcing.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="./assets/fonts/poppins-400-latin.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="./assets/fonts/poppins-600-latin.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="./assets/fonts/poppins-800-latin.ttf" as="font" type="font/ttf" crossorigin>
 <title>Apparel Sourcing Company in Tirupur | 2D Creation</title>
 <meta name="description" content="2D Creation is an apparel sourcing company in Tirupur, India providing knowledge-based costings, flexible volumes, shorter lead times and real-time communication.">
 <meta property="og:locale" content="en_IN">
@@ -34,25 +39,45 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="favicon.svg">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="stylesheet" href="./fonts.v1.css">
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
   "@graph":[
     {"@type":"Organization","@id":"https://2dcreation.in/#organization","name":"2D Creation","url":"https://2dcreation.in/","description":"A Tirupur-based apparel sourcing partner supporting product development, fabric sourcing, sampling, production, quality control, merchandising, and shipping coordination.","email":"karthick@2dcreation.in","telephone":"+91 97918 81884","address":{"@type":"PostalAddress","addressLocality":"Tirupur","addressRegion":"Tamil Nadu","addressCountry":"IN"},"areaServed":"Worldwide","knowsAbout":["Apparel sourcing","Garment product development","Fabric sourcing","Garment sampling","Apparel production","Garment quality control","Merchandising","Shipping coordination"],"sameAs":["https://www.linkedin.com/in/karthick-subramaniamm"],"hasOfferCatalog":{"@type":"OfferCatalog","name":"Apparel sourcing services","itemListElement":[{"@type":"OfferCatalog","name":"Product development"},{"@type":"OfferCatalog","name":"Fabric sourcing"},{"@type":"OfferCatalog","name":"Sampling"},{"@type":"OfferCatalog","name":"Production coordination"},{"@type":"OfferCatalog","name":"Quality control"},{"@type":"OfferCatalog","name":"Merchandising and logistics"}]}},
     {"@type":"WebSite","@id":"https://2dcreation.in/#website","url":"https://2dcreation.in/","name":"2D Creation","inLanguage":"en","publisher":{"@id":"https://2dcreation.in/#organization"}},
-    {"@type":"WebPage","@id":"https://2dcreation.in/#webpage","url":"https://2dcreation.in/","name":"Apparel Sourcing Company in Tirupur | 2D Creation","description":"Knowledge-led apparel sourcing and production coordination from Tirupur, India.","dateModified":"2026-08-27","inLanguage":"en","isPartOf":{"@id":"https://2dcreation.in/#website"},"about":{"@id":"https://2dcreation.in/#organization"}},
+    {"@type":"WebPage","@id":"https://2dcreation.in/#webpage","url":"https://2dcreation.in/","name":"Apparel Sourcing Company in Tirupur | 2D Creation","description":"Knowledge-led apparel sourcing and production coordination from Tirupur, India.","dateModified":"2026-08-30","inLanguage":"en","isPartOf":{"@id":"https://2dcreation.in/#website"},"about":{"@id":"https://2dcreation.in/#organization"}},
     {"@type":"FAQPage","@id":"https://2dcreation.in/#quick-answers","isPartOf":{"@id":"https://2dcreation.in/#webpage"},"mainEntity":[{"@type":"Question","name":"What is 2D Creation?","acceptedAnswer":{"@type":"Answer","text":"2D Creation is an apparel sourcing partner based in Tirupur, Tamil Nadu, India."}},{"@type":"Question","name":"What apparel sourcing services does 2D Creation provide?","acceptedAnswer":{"@type":"Answer","text":"Services include design coordination, product development, fabric sourcing, sampling, production coordination, quality control, merchandising, and shipping coordination."}},{"@type":"Question","name":"What garments can 2D Creation source?","acceptedAnswer":{"@type":"Answer","text":"Capabilities include men's wear, women's wear, kidswear, casualwear, T-shirts, shirts, sweatshirts, hoodies, loungewear, and nightwear."}},{"@type":"Question","name":"How can a buyer request an apparel sourcing quote?","acceptedAnswer":{"@type":"Answer","text":"Buyers can use the website enquiry form or contact 2D Creation by email, phone, or WhatsApp with the product type, target quantity, delivery market, reference files, and required date."}}]}
   ]
 }
 </script>
 <style>
 @font-face{
+  font-family:"Poppins";
+  src:url("./assets/fonts/poppins-400-latin.ttf") format("truetype");
+  font-style:normal;
+  font-weight:400;
+  font-display:optional;
+}
+@font-face{
+  font-family:"Poppins";
+  src:url("./assets/fonts/poppins-600-latin.ttf") format("truetype");
+  font-style:normal;
+  font-weight:600;
+  font-display:optional;
+}
+@font-face{
+  font-family:"Poppins";
+  src:url("./assets/fonts/poppins-800-latin.ttf") format("truetype");
+  font-style:normal;
+  font-weight:800;
+  font-display:optional;
+}
+@font-face{
   font-family:"Poppins Sourcing";
   src:url("./assets/fonts/poppins-black-sourcing.ttf") format("truetype");
   font-style:normal;
   font-weight:900;
-  font-display:swap;
+  font-display:optional;
 }
 /* ============ TOKENS ============ */
 :root{
@@ -184,14 +209,14 @@ ol,ul{margin:0;padding:0;list-style:none}
 .hero h1{font-size:clamp(58px,8.6vw,124px);font-weight:900;letter-spacing:-.035em;line-height:.86;margin:6px 0 0}
 .hero h1 .ln2{display:block;margin-top:.04em;line-height:1;font-family:"Poppins Sourcing","Poppins","Segoe UI",system-ui,sans-serif;
   font-weight:900;font-synthesis:none;color:transparent;-webkit-text-stroke:1.6px rgba(255,255,255,.55)}
-.hero-copy{margin-top:26px;max-width:490px;font-size:16.5px;color:rgba(255,255,255,.8)}
+.hero-copy{margin-top:26px;max-width:490px;font-family:Arial,"Segoe UI",system-ui,sans-serif;font-size:16.5px;color:rgba(255,255,255,.8)}
 .hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:26px;margin-top:38px}
 .stats{margin-top:64px;padding-top:30px;border-top:1px solid rgba(255,255,255,.17);
   display:grid;grid-template-columns:repeat(4,1fr)}
 .stats>div{padding-left:30px}
 .stats>div:first-child{padding-left:0}
 .stats>div+div{border-left:1px solid rgba(255,255,255,.17)}
-.stats dt{font-family:var(--display);font-size:clamp(30px,3.2vw,42px);font-weight:900;letter-spacing:-.02em;line-height:1}
+.stats dt{display:inline-block;min-inline-size:4ch;font-family:var(--display);font-size:clamp(30px,3.2vw,42px);font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1}
 .stats dd{margin:9px 0 0;font-size:11.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.62)}
 .scroll-cue{position:absolute;right:26px;bottom:56px;display:flex;flex-direction:column;align-items:center;gap:14px;
   font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.5);
@@ -304,13 +329,14 @@ ol,ul{margin:0;padding:0;list-style:none}
   height:calc(var(--h)*1px*var(--cs));
   width:calc(var(--h)*var(--ar)*1px*var(--cs));
   background-repeat:no-repeat;background-position:center center;background-size:contain}
-.l-oeko{--h:46;--ar:2.7381;background-image:var(--lg-oeko)}
-.l-wrap{--h:66;--ar:1.0625;background-image:var(--lg-wrap)}
-.l-disney{--h:50;--ar:2.4574;background-image:var(--lg-disney)}
-.l-bci{--h:44;--ar:2.8228;background-image:var(--lg-bci)}
-.l-bsci{--h:56;--ar:2.2037;background-image:var(--lg-bsci)}
-.l-smeta{--h:42;--ar:3.0256;background-image:var(--lg-smeta)}
-.l-grs{--h:54;--ar:2.1132;background-image:var(--lg-grs)}
+.l-oeko{--h:46;--ar:2.7381}.l-wrap{--h:66;--ar:1.0625}.l-disney{--h:50;--ar:2.4574}.l-bci{--h:44;--ar:2.8228}.l-bsci{--h:56;--ar:2.2037}.l-smeta{--h:42;--ar:3.0256}.l-grs{--h:54;--ar:2.1132}
+.cert-marquee.logos-ready .l-oeko{background-image:var(--lg-oeko)}
+.cert-marquee.logos-ready .l-wrap{background-image:var(--lg-wrap)}
+.cert-marquee.logos-ready .l-disney{background-image:var(--lg-disney)}
+.cert-marquee.logos-ready .l-bci{background-image:var(--lg-bci)}
+.cert-marquee.logos-ready .l-bsci{background-image:var(--lg-bsci)}
+.cert-marquee.logos-ready .l-smeta{background-image:var(--lg-smeta)}
+.cert-marquee.logos-ready .l-grs{background-image:var(--lg-grs)}
 @keyframes certLine{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* ---- APPAREL CAPABILITIES ---- */
@@ -832,6 +858,8 @@ body.dialog-open{overflow:hidden}
     </div>
     <div class="rv">
       <form class="qform" id="quote" novalidate
+            toolname="requestApparelSourcingQuote"
+            tooldescription="Submit an apparel sourcing quote request to 2D Creation for product development, sampling, production, quality, or shipping support."
             action="https://formsubmit.co/karthick@2dcreation.in"
             method="POST" enctype="multipart/form-data">
         <!-- FormSubmit settings -->
@@ -849,16 +877,16 @@ body.dialog-open{overflow:hidden}
           <label class="f" for="f-company">Company<input id="f-company" name="company" autocomplete="organization"></label>
           <label class="f" for="f-country">Country<input id="f-country" name="country" autocomplete="country-name"></label>
           <label class="f" for="f-date">Target delivery date<input id="f-date" name="date" type="date"></label>
-          <label class="f full" for="f-details">Project details<textarea id="f-details" name="details" placeholder="Tell us about the style, fabric, quality level, or delivery goal."></textarea></label>
+          <label class="f full" for="f-details">Project details<textarea id="f-details" name="details" toolparamdescription="Describe the garment, fabric, construction, quantity, quality level, delivery market, and target date when known." placeholder="Tell us about the style, fabric, quality level, or delivery goal."></textarea></label>
         </div>
         <div class="filebox">
           <b>Tech pack or reference file</b>
           <em>PDF, PNG, JPG, or ZIP · up to 10 MB</em>
-          <input id="f-file" name="file" type="file" accept=".pdf,.png,.jpg,.jpeg,.zip" aria-label="Tech pack or reference file">
+          <input id="f-file" name="file" type="file" accept=".pdf,.png,.jpg,.jpeg,.zip" aria-label="Tech pack or reference file" toolparamdescription="Optional PDF, PNG, JPG, or ZIP reference file up to 10 MB.">
         </div>
         <input class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" name="_honey">
         <label class="check" for="f-consent">
-          <input id="f-consent" name="consent" type="checkbox">
+          <input id="f-consent" name="consent" type="checkbox" toolparamdescription="Permission for 2D Creation to use the submitted details to respond to the enquiry.">
           <span>I agree that 2D Creation may use these details to respond to my enquiry.</span>
         </label>
         <button class="btn submit" type="submit">Send quote request <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
@@ -965,8 +993,35 @@ body.dialog-open{overflow:hidden}
       '<span class="n">' + String(i+1).padStart(2,"0") + '</span>' +
       '<h3>' + s[1] + '</h3><p>' + s[2] + '</p><span class="line"></span></article>';
   }
-  track.innerHTML = SERVICES.map(function(s,i){ return cardHTML(s,i,false); }).join("") +
-                    SERVICES.map(function(s,i){ return cardHTML(s,i,true); }).join("");
+  var servicesPopulated = false;
+  function populateServices(){
+    if(servicesPopulated) return;
+    servicesPopulated = true;
+    track.innerHTML = SERVICES.map(function(s,i){ return cardHTML(s,i,false); }).join("") +
+                      SERVICES.map(function(s,i){ return cardHTML(s,i,true); }).join("");
+  }
+  if("IntersectionObserver" in window){
+    var servicesObserver = new IntersectionObserver(function(entries){
+      if(entries[0].isIntersecting){ populateServices(); servicesObserver.disconnect(); }
+    },{rootMargin:"500px 0px"});
+    servicesObserver.observe(track);
+  }else{
+    window.setTimeout(populateServices,0);
+  }
+
+  /* ---- lazy certification-logo backgrounds ---- */
+  var certMarquee = document.querySelector(".cert-marquee");
+  if(certMarquee){
+    function loadCertLogos(){ certMarquee.classList.add("logos-ready"); }
+    if("IntersectionObserver" in window){
+      var certLogoObserver = new IntersectionObserver(function(entries){
+        if(entries[0].isIntersecting){ loadCertLogos(); certLogoObserver.disconnect(); }
+      },{rootMargin:"300px 0px"});
+      certLogoObserver.observe(certMarquee);
+    }else{
+      loadCertLogos();
+    }
+  }
 
   /* ---- apparel capabilities carousel ---- */
   var APPAREL = [

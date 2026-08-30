@@ -3,19 +3,19 @@
   src:url("./assets/fonts/poppins-400-latin.ttf") format("truetype");
   font-style:normal;
   font-weight:400;
-  font-display:swap;
+  font-display:optional;
 }
 @font-face{
   font-family:"Poppins";
   src:url("./assets/fonts/poppins-600-latin.ttf") format("truetype");
   font-style:normal;
   font-weight:600;
-  font-display:swap;
+  font-display:optional;
 }
 @font-face{
   font-family:"Poppins";
   src:url("./assets/fonts/poppins-800-latin.ttf") format("truetype");
   font-style:normal;
   font-weight:800;
-  font-display:swap;
+  font-display:optional;
 }
