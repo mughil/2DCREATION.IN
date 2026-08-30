@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preload" href="./assets/fonts/poppins-400-latin.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="./assets/fonts/poppins-600-latin.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="./assets/fonts/poppins-800-latin.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="./assets/fonts/poppins-black-sourcing.ttf" as="font" type="font/ttf" crossorigin>
 <!-- Privacy-first Google Analytics 4 -->
@@ -86,8 +88,8 @@
   --olive-400:#5C7340;
   --olive-200:#A8B694;
 
-  --orange:#C1691E;
-  --orange-2:#E08B3E;
+  --orange:#A6530E;
+  --orange-2:#FFD19A;
   --orange-soft:rgba(224,139,62,.14);
 
   --cream:#FBFCF8;
@@ -128,7 +130,9 @@ button,input,select,textarea{font:inherit;color:inherit}
 h1,h2,h3,h4{font-family:var(--display);margin:0;letter-spacing:-.02em;font-weight:800;line-height:1.06}
 p{margin:0}
 ol,ul{margin:0;padding:0;list-style:none}
-:focus-visible{outline:2px solid var(--orange-2);outline-offset:3px;border-radius:4px}
+:focus-visible{outline:3px solid var(--orange);outline-offset:3px;border-radius:4px}
+.dark-sec :focus-visible,.hdr :focus-visible,.drawer :focus-visible,.foot :focus-visible{outline-color:var(--orange-2)}
+.ac-button:focus-visible,.ac-settings-button:focus-visible,.ac-dialog button:focus-visible,.ac-dialog input:focus-visible{outline-color:var(--orange)}
 .wrap{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:24px}
 .ico{width:22px;height:22px;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;fill:none}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -204,7 +208,7 @@ ol,ul{margin:0;padding:0;list-style:none}
   background-image:radial-gradient(rgba(224,139,62,.75) 1.4px,transparent 1.5px);background-size:17px 17px}
 .hero h1{font-size:clamp(58px,8.6vw,124px);font-weight:900;letter-spacing:-.035em;line-height:.86;margin:6px 0 0}
 .hero h1 .ln2{display:block;margin-top:.04em;line-height:1;font-family:"Poppins Sourcing","Poppins","Segoe UI",system-ui,sans-serif;
-  font-weight:900;font-synthesis:none;color:transparent;-webkit-text-stroke:1.6px rgba(255,255,255,.55)}
+  font-weight:900;font-synthesis:none;color:transparent;-webkit-text-stroke:1.6px rgba(255,255,255,.82)}
 .hero-copy{margin-top:26px;max-width:490px;font-family:Arial,"Segoe UI",system-ui,sans-serif;font-size:16.5px;color:rgba(255,255,255,.8)}
 .hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:26px;margin-top:38px}
 .stats{margin-top:64px;padding-top:30px;border-top:1px solid rgba(255,255,255,.17);
@@ -213,9 +217,9 @@ ol,ul{margin:0;padding:0;list-style:none}
 .stats>div:first-child{padding-left:0}
 .stats>div+div{border-left:1px solid rgba(255,255,255,.17)}
 .stats dt{display:inline-block;min-inline-size:4ch;font-family:var(--display);font-size:clamp(30px,3.2vw,42px);font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1}
-.stats dd{margin:9px 0 0;font-size:11.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.62)}
+.stats dd{margin:9px 0 0;font-size:11.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.78)}
 .scroll-cue{position:absolute;right:26px;bottom:56px;display:flex;flex-direction:column;align-items:center;gap:14px;
-  font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.5);
+  font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.78);
   writing-mode:vertical-rl}
 .scroll-cue::before{content:"";width:1px;height:56px;background:linear-gradient(rgba(255,255,255,.5),transparent)}
 
@@ -278,8 +282,7 @@ ol,ul{margin:0;padding:0;list-style:none}
 .svc-scroll-btn{width:44px;height:44px;border:1px solid rgba(255,255,255,.2);border-radius:50%;background:rgba(255,255,255,.08);
   color:#fff;display:grid;place-items:center;cursor:pointer;transition:background .2s,border-color .2s,opacity .2s}
 .svc-scroll-btn:hover:not(:disabled){background:rgba(255,255,255,.15);border-color:rgba(224,139,62,.65)}
-.svc-scroll-btn:disabled{opacity:.38;cursor:not-allowed}.svc-scroll-btn .ico{width:19px;height:19px}
-.svc-scroll-prev .ico{transform:rotate(180deg)}
+.svc-scroll-btn:disabled{opacity:.38;cursor:not-allowed}
 .svc-status{min-width:88px;text-align:center;color:rgba(255,255,255,.78);font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
 .svc-view{margin-top:58px;position:relative;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x proximity;
   scroll-padding-inline:max(24px,calc((100vw - 1180px)/2));padding:0 max(24px,calc((100vw - 1180px)/2)) 20px;
@@ -292,7 +295,7 @@ ol,ul{margin:0;padding:0;list-style:none}
   border-radius:22px;padding:24px 24px 34px;min-height:302px;overflow:hidden;transition:background .3s,transform .3s,border-color .3s}
 .svc-card:hover{background:rgba(255,255,255,.09);border-color:rgba(224,139,62,.45);transform:translateY(-5px)}
 .svc-card .n{position:absolute;top:24px;right:24px;font-family:var(--display);font-size:11.5px;font-weight:800;
-  letter-spacing:.08em;color:rgba(255,255,255,.38)}
+  letter-spacing:.08em;color:rgba(255,255,255,.76)}
 .svc-card .tile{width:46px;height:46px;border-radius:13px;background:#fff;display:grid;place-items:center;color:var(--olive-700)}
 .svc-card .tile .ico{width:22px;height:22px}
 .svc-card h3{margin-top:56px;font-size:18px;color:#fff;letter-spacing:-.02em}
@@ -316,7 +319,7 @@ ol,ul{margin:0;padding:0;list-style:none}
 .impact article:hover{background:rgba(255,255,255,.12);transform:translateY(-4px)}
 .impact .ico{width:26px;height:26px;color:#fff;stroke-width:1.5}
 .impact h3{margin-top:auto;font-size:17px;color:#fff;letter-spacing:-.02em}
-.impact span{margin-top:9px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.58)}
+.impact span{margin-top:9px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.82)}
 
 /* ---- CERTIFICATIONS ---- */
 .certs{background:var(--cream)}
@@ -405,7 +408,7 @@ ol,ul{margin:0;padding:0;list-style:none}
 .cdetails a:hover{color:var(--orange-2)}
 .cdetails .ico{width:19px;height:19px;color:rgba(255,255,255,.65);flex:none}
 .cdetails small{display:block;font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
-  color:rgba(255,255,255,.55);margin-bottom:3px}
+  color:rgba(255,255,255,.78);margin-bottom:3px}
 .cdetails b{font-family:var(--body);font-weight:600;font-size:14.5px;overflow-wrap:anywhere}
 .maps-btn{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:18px;
   border:1px solid rgba(255,255,255,.22);border-radius:16px;padding:19px 22px;color:#fff;
@@ -429,9 +432,11 @@ label.f input:focus,label.f textarea:focus{outline:none;border-color:var(--orang
 label.f.err input,label.f.err textarea{border-color:#B4402A;box-shadow:0 0 0 3px rgba(180,64,42,.12)}
 .full{grid-column:1/-1}
 .filebox{margin-top:14px;border:1px dashed var(--line);border-radius:11px;padding:13px 15px;background:#FAFBF6}
-.filebox b{display:block;font-family:var(--body);font-size:13px;font-weight:700;color:var(--ink-2)}
-.filebox em{display:block;font-style:normal;font-size:12px;color:var(--muted);margin:3px 0 11px}
-.filebox input{font-size:12.5px;width:100%}
+.filebox label{display:block;font-family:var(--body);font-size:13px;font-weight:700;color:var(--ink)}
+.filebox p{font-size:12px;color:var(--ink-2);margin:3px 0 11px}
+.filebox input{font-size:12.5px;width:100%;color:var(--ink)}
+.filebox input::file-selector-button{min-height:36px;margin-right:10px;padding:7px 12px;border:1px solid var(--olive-600);border-radius:7px;background:var(--olive-600);color:#fff;font-weight:700;cursor:pointer}
+.filebox input::file-selector-button:hover{background:var(--olive-700)}
 .check{margin-top:16px;display:flex;align-items:flex-start;gap:11px;font-size:13px;color:var(--ink-2)}
 .check input{width:17px;height:17px;margin-top:1px;accent-color:var(--orange);flex:none}
 .submit{margin-top:18px;width:100%;justify-content:center;background:var(--olive-600);color:#fff;
@@ -724,13 +729,12 @@ body.dialog-open{overflow:hidden}
         <h2>One connected<br>line of expertise.</h2>
       </div>
       <div class="svc-tools" role="group" aria-label="Service list controls">
-        <button class="svc-scroll-btn svc-scroll-prev" id="svcPrev" type="button" aria-label="Previous service" aria-controls="svcView"><svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
-        <span class="svc-status" id="svcStatus" role="status" aria-live="polite">Service 1 of 8</span>
-        <button class="svc-scroll-btn svc-scroll-next" id="svcNext" type="button" aria-label="Next service" aria-controls="svcView"><svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        <span class="svc-status" id="svcStatus">Service 1 of 8</span>
+        <button class="svc-scroll-btn" id="svcToggle" type="button" aria-label="Pause automatic service movement" aria-controls="svcView"><span class="pause-glyph" aria-hidden="true"></span></button>
       </div>
     </div>
   </div>
-  <p class="sr" id="svcHelp">Use the previous and next buttons, swipe, or press the left and right arrow keys to browse services.</p>
+  <p class="sr" id="svcHelp">Services move automatically. Use the pause button to stop movement, swipe, or press the left and right arrow keys to browse.</p>
   <div class="svc-view" id="svcView" role="region" tabindex="0" aria-label="Scrollable services list" aria-describedby="svcHelp">
     <div class="svc-track" id="svcTrack" role="list" aria-label="Our services">
       <article class="svc-card" role="listitem"><span class="tile"><svg class="ico" aria-hidden="true"><use href="#i-palette"/></svg></span><span class="n">01</span><h3>Designing</h3><p>Commercial design direction shaped around your market, range plan, and customer.</p><span class="line"></span></article>
@@ -908,9 +912,9 @@ body.dialog-open{overflow:hidden}
           <label class="f full" for="f-details">Project details<textarea id="f-details" name="details" toolparamdescription="Describe the garment, fabric, construction, quantity, quality level, delivery market, and target date when known." placeholder="Tell us about the style, fabric, quality level, or delivery goal."></textarea></label>
         </div>
         <div class="filebox">
-          <b>Tech pack or reference file</b>
-          <em>PDF, PNG, JPG, or ZIP · up to 10 MB</em>
-          <input id="f-file" name="file" type="file" accept=".pdf,.png,.jpg,.jpeg,.zip" aria-label="Tech pack or reference file" toolparamdescription="Optional PDF, PNG, JPG, or ZIP reference file up to 10 MB.">
+          <label for="f-file">Tech pack or reference file</label>
+          <p id="f-file-help">PDF, PNG, JPG, or ZIP · up to 10 MB</p>
+          <input id="f-file" name="file" type="file" accept=".pdf,.png,.jpg,.jpeg,.zip" aria-describedby="f-file-help" toolparamdescription="Optional PDF, PNG, JPG, or ZIP reference file up to 10 MB.">
         </div>
         <input class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" name="_honey">
         <label class="check" for="f-consent">
@@ -1005,29 +1009,60 @@ body.dialog-open{overflow:hidden}
 
   /* ---- accessible single-row services scroller ---- */
   var svcView = document.getElementById("svcView"),
-      svcPrev = document.getElementById("svcPrev"),
-      svcNext = document.getElementById("svcNext"),
+      svcToggle = document.getElementById("svcToggle"),
       svcStatus = document.getElementById("svcStatus"),
       svcCards = Array.prototype.slice.call(document.querySelectorAll("#svcTrack .svc-card")),
       svcUpdateTimer = 0,
-      svcCardStep = 274;
+      svcAutoTimer = 0,
+      svcCardStep = window.innerWidth <= 620 ? Math.min(window.innerWidth * .82, 300) + 16 : 274,
+      svcMaxStart = 0,
+      svcCurrent = 0,
+      svcUserStopped = reduce,
+      svcTemporarilyPaused = false,
+      svcInView = !("IntersectionObserver" in window);
   function measureSvcStep(){
-    if(!svcCards.length) return;
-    var styles = window.getComputedStyle(document.getElementById("svcTrack"));
-    svcCardStep = svcCards[0].getBoundingClientRect().width + (parseFloat(styles.columnGap || styles.gap) || 0);
+    var width = window.innerWidth,
+        gap = width <= 620 ? 16 : 22,
+        padding = width <= 620 ? 17 : width <= 900 ? 20 : Math.max(24, (width - 1180) / 2),
+        visibleWidth = Math.max(1, width - (padding * 2));
+    svcCardStep = width <= 620 ? Math.min(width * .82, 300) + gap : 252 + gap;
+    svcMaxStart = Math.max(0, svcCards.length - Math.max(1, Math.floor((visibleWidth + gap) / svcCardStep)));
+    svcCurrent = Math.min(svcMaxStart, Math.max(0, Math.round(svcView.scrollLeft / svcCardStep)));
   }
   function updateSvcControls(){
-    var max = Math.max(0, svcView.scrollWidth - svcView.clientWidth),
-        current = Math.min(svcCards.length, Math.max(1, Math.round(svcView.scrollLeft / svcCardStep) + 1));
-    svcPrev.disabled = svcView.scrollLeft <= 2;
-    svcNext.disabled = svcView.scrollLeft >= max - 2;
-    svcStatus.textContent = "Service " + current + " of " + svcCards.length;
+    svcCurrent = Math.min(svcMaxStart, Math.max(0, Math.round(svcView.scrollLeft / svcCardStep)));
+    svcStatus.textContent = "Service " + (svcCurrent + 1) + " of " + svcCards.length;
+  }
+  function updateSvcToggle(){
+    var stopped = svcUserStopped || reduce;
+    svcToggle.setAttribute("aria-label", stopped ? "Play automatic service movement" : "Pause automatic service movement");
+    svcToggle.innerHTML = '<span class="' + (stopped ? 'play-glyph' : 'pause-glyph') + '" aria-hidden="true"></span>';
+    if(reduce){
+      svcToggle.disabled = true;
+      svcToggle.title = "Automatic movement is disabled while reduced motion is enabled";
+    }
+  }
+  function stopSvcAuto(){
+    if(svcAutoTimer){ window.clearTimeout(svcAutoTimer); svcAutoTimer = 0; }
+  }
+  function startSvcAuto(){
+    stopSvcAuto();
+    if(!reduce && !svcUserStopped && !svcTemporarilyPaused && svcInView && !document.hidden){
+      svcAutoTimer = window.setTimeout(function(){
+        svcCurrent = svcCurrent >= svcMaxStart ? 0 : svcCurrent + 1;
+        svcView.scrollTo({left:svcCurrent * svcCardStep, behavior:"smooth"});
+        startSvcAuto();
+      }, 3600);
+    }
   }
   function scrollServices(direction){
     svcView.scrollBy({left: direction * svcCardStep, behavior: reduce ? "auto" : "smooth"});
   }
-  svcPrev.addEventListener("click", function(){ scrollServices(-1); });
-  svcNext.addEventListener("click", function(){ scrollServices(1); });
+  svcToggle.addEventListener("click", function(){
+    svcUserStopped = !svcUserStopped;
+    updateSvcToggle();
+    startSvcAuto();
+  });
   svcView.addEventListener("keydown", function(e){
     if(e.key === "ArrowLeft" || e.key === "ArrowRight"){
       e.preventDefault();
@@ -1035,15 +1070,30 @@ body.dialog-open{overflow:hidden}
     }else if(e.key === "Home"){
       e.preventDefault(); svcView.scrollTo({left:0,behavior:reduce ? "auto" : "smooth"});
     }else if(e.key === "End"){
-      e.preventDefault(); svcView.scrollTo({left:svcView.scrollWidth,behavior:reduce ? "auto" : "smooth"});
+      e.preventDefault(); svcView.scrollTo({left:svcMaxStart * svcCardStep,behavior:reduce ? "auto" : "smooth"});
     }
+    startSvcAuto();
+  });
+  svcView.addEventListener("pointerenter", function(){ svcTemporarilyPaused = true; stopSvcAuto(); });
+  svcView.addEventListener("pointerleave", function(){ svcTemporarilyPaused = false; startSvcAuto(); });
+  svcView.addEventListener("focusin", function(){ svcTemporarilyPaused = true; stopSvcAuto(); });
+  svcView.addEventListener("focusout", function(e){
+    if(!svcView.contains(e.relatedTarget)){ svcTemporarilyPaused = false; startSvcAuto(); }
   });
   svcView.addEventListener("scroll", function(){
     window.clearTimeout(svcUpdateTimer);
     svcUpdateTimer = window.setTimeout(updateSvcControls, 120);
   }, {passive:true});
-  window.addEventListener("resize", function(){ measureSvcStep(); updateSvcControls(); }, {passive:true});
-  window.requestAnimationFrame(function(){ measureSvcStep(); updateSvcControls(); });
+  window.addEventListener("resize", function(){ measureSvcStep(); updateSvcControls(); startSvcAuto(); }, {passive:true});
+  document.addEventListener("visibilitychange", startSvcAuto);
+  if("IntersectionObserver" in window){
+    var svcObserver = new IntersectionObserver(function(entries){
+      svcInView = entries[0].isIntersecting;
+      startSvcAuto();
+    }, {threshold:.25});
+    svcObserver.observe(svcView);
+  }
+  window.requestAnimationFrame(function(){ measureSvcStep(); updateSvcControls(); updateSvcToggle(); startSvcAuto(); });
 
   /* ---- lazy certification-logo backgrounds ---- */
   var certMarquee = document.querySelector(".cert-marquee");
