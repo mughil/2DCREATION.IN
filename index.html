@@ -273,7 +273,14 @@ ol,ul{margin:0;padding:0;list-style:none}
 
 /* ---- SERVICES ---- */
 .services{background:linear-gradient(180deg,#22301A 0%,#253317 45%,#22301A 100%);overflow:hidden;padding-bottom:120px}
-.svc-head{display:block}
+.svc-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px}
+.svc-tools{display:flex;align-items:center;gap:10px;flex:none}
+.svc-scroll-btn{width:44px;height:44px;border:1px solid rgba(255,255,255,.2);border-radius:50%;background:rgba(255,255,255,.08);
+  color:#fff;display:grid;place-items:center;cursor:pointer;transition:background .2s,border-color .2s,opacity .2s}
+.svc-scroll-btn:hover:not(:disabled){background:rgba(255,255,255,.15);border-color:rgba(224,139,62,.65)}
+.svc-scroll-btn:disabled{opacity:.38;cursor:not-allowed}.svc-scroll-btn .ico{width:19px;height:19px}
+.svc-scroll-prev .ico{transform:rotate(180deg)}
+.svc-status{min-width:88px;text-align:center;color:rgba(255,255,255,.78);font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
 .svc-view{margin-top:58px;position:relative;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x proximity;
   scroll-padding-inline:max(24px,calc((100vw - 1180px)/2));padding:0 max(24px,calc((100vw - 1180px)/2)) 20px;
   scrollbar-width:thin;scrollbar-color:rgba(224,139,62,.65) rgba(255,255,255,.08);-webkit-overflow-scrolling:touch}
@@ -485,6 +492,8 @@ label.f.err input,label.f.err textarea{border-color:#B4402A;box-shadow:0 0 0 3px
 }
 @media (max-width:620px){
   .hero h1{font-size:clamp(46px,13vw,74px)}
+  .svc-head{align-items:flex-start;flex-direction:column}
+  .svc-tools{align-self:flex-end}
   .fgrid{grid-template-columns:1fr}
   .impact{grid-template-columns:1fr}
   .cert-marquee{margin-top:36px;padding:18px 0;-webkit-mask-image:none;mask-image:none}
@@ -714,9 +723,15 @@ body.dialog-open{overflow:hidden}
         <p class="eyebrow on-dark">Services in motion</p>
         <h2>One connected<br>line of expertise.</h2>
       </div>
+      <div class="svc-tools" role="group" aria-label="Service list controls">
+        <button class="svc-scroll-btn svc-scroll-prev" id="svcPrev" type="button" aria-label="Previous service" aria-controls="svcView"><svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        <span class="svc-status" id="svcStatus" role="status" aria-live="polite">Service 1 of 8</span>
+        <button class="svc-scroll-btn svc-scroll-next" id="svcNext" type="button" aria-label="Next service" aria-controls="svcView"><svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+      </div>
     </div>
   </div>
-  <div class="svc-view" id="svcView" tabindex="0" aria-label="Scrollable services list">
+  <p class="sr" id="svcHelp">Use the previous and next buttons, swipe, or press the left and right arrow keys to browse services.</p>
+  <div class="svc-view" id="svcView" role="region" tabindex="0" aria-label="Scrollable services list" aria-describedby="svcHelp">
     <div class="svc-track" id="svcTrack" role="list" aria-label="Our services">
       <article class="svc-card" role="listitem"><span class="tile"><svg class="ico" aria-hidden="true"><use href="#i-palette"/></svg></span><span class="n">01</span><h3>Designing</h3><p>Commercial design direction shaped around your market, range plan, and customer.</p><span class="line"></span></article>
       <article class="svc-card" role="listitem"><span class="tile"><svg class="ico" aria-hidden="true"><use href="#i-sparkles"/></svg></span><span class="n">02</span><h3>Product Development</h3><p>From concept review to construction decisions, every detail is resolved early.</p><span class="line"></span></article>
@@ -796,16 +811,16 @@ body.dialog-open{overflow:hidden}
 
     <div class="apparel-carousel rv" id="apparelCarousel" role="region" aria-roledescription="carousel" aria-label="Apparel and garment categories" tabindex="0">
       <div class="apparel-stage" id="apparelStage">
-        <figure class="apparel-slide is-active" data-index="0"><img src="./embedded-08-720.webp" alt="Woman wearing a blue and green openwork crochet dress with fringe" width="720" height="900" loading="lazy" decoding="async" draggable="false"></figure>
-        <figure class="apparel-slide is-right" data-index="1"><img src="./embedded-09.webp" alt="Man wearing a charcoal performance T-shirt and black activewear joggers" width="851" height="1280" loading="lazy" decoding="async" draggable="false"></figure>
-        <figure class="apparel-slide is-hidden" data-index="2"><img src="./embedded-10.webp" alt="Men's cream textured loungewear set" width="720" height="900" loading="lazy" decoding="async" draggable="false"></figure>
-        <figure class="apparel-slide is-hidden" data-index="3"><img src="./embedded-11.webp" alt="Men's beige short-sleeve hooded T-shirt" width="720" height="900" loading="lazy" decoding="async" draggable="false"></figure>
-        <figure class="apparel-slide is-hidden" data-index="4"><img src="./embedded-12.webp" alt="Women's lavender casual T-shirt and black shorts" width="720" height="900" loading="lazy" decoding="async" draggable="false"></figure>
-        <figure class="apparel-slide is-hidden" data-index="5"><img src="./embedded-13.webp" alt="Women's pink printed knee-length nightdress" width="720" height="900" loading="lazy" decoding="async" draggable="false"></figure>
-        <figure class="apparel-slide is-hidden" data-index="6"><img src="./embedded-14.webp" alt="Women's lavender lace-trim camisole and shorts set" width="720" height="900" loading="lazy" decoding="async" draggable="false"></figure>
-        <figure class="apparel-slide is-hidden" data-index="7"><img src="./embedded-15.webp" alt="Girl wearing a white sleeveless heart-print dress" width="1122" height="1402" loading="lazy" decoding="async" draggable="false"></figure>
-        <figure class="apparel-slide is-hidden" data-index="8"><img src="./embedded-16.webp" alt="Young boy wearing a brown textured shirt and matching shorts set" width="900" height="1125" loading="lazy" decoding="async" draggable="false"></figure>
-        <figure class="apparel-slide is-left" data-index="9"><img src="./embedded-17.webp" alt="Young girl wearing a cream occasion dress with a tulle skirt" width="900" height="1125" loading="lazy" decoding="async" draggable="false"></figure>
+        <figure class="apparel-slide is-active" data-index="0" aria-hidden="false"><img src="./embedded-08-720.webp" alt="Woman wearing a blue and green openwork crochet dress with fringe" width="720" height="900" loading="lazy" decoding="async" draggable="false"></figure>
+        <figure class="apparel-slide is-right" data-index="1" aria-hidden="true"><img src="./embedded-09.webp" alt="Man wearing a charcoal performance T-shirt and black activewear joggers" width="851" height="1280" loading="lazy" decoding="async" draggable="false"></figure>
+        <figure class="apparel-slide is-hidden" data-index="2" aria-hidden="true"><img src="./embedded-10.webp" alt="Men's cream textured loungewear set" width="720" height="900" loading="lazy" decoding="async" draggable="false"></figure>
+        <figure class="apparel-slide is-hidden" data-index="3" aria-hidden="true"><img src="./embedded-11.webp" alt="Men's beige short-sleeve hooded T-shirt" width="720" height="900" loading="lazy" decoding="async" draggable="false"></figure>
+        <figure class="apparel-slide is-hidden" data-index="4" aria-hidden="true"><img src="./embedded-12.webp" alt="Women's lavender casual T-shirt and black shorts" width="720" height="900" loading="lazy" decoding="async" draggable="false"></figure>
+        <figure class="apparel-slide is-hidden" data-index="5" aria-hidden="true"><img src="./embedded-13.webp" alt="Women's pink printed knee-length nightdress" width="720" height="900" loading="lazy" decoding="async" draggable="false"></figure>
+        <figure class="apparel-slide is-hidden" data-index="6" aria-hidden="true"><img src="./embedded-14.webp" alt="Women's lavender lace-trim camisole and shorts set" width="720" height="900" loading="lazy" decoding="async" draggable="false"></figure>
+        <figure class="apparel-slide is-hidden" data-index="7" aria-hidden="true"><img src="./embedded-15.webp" alt="Girl wearing a white sleeveless heart-print dress" width="1122" height="1402" loading="lazy" decoding="async" draggable="false"></figure>
+        <figure class="apparel-slide is-hidden" data-index="8" aria-hidden="true"><img src="./embedded-16.webp" alt="Young boy wearing a brown textured shirt and matching shorts set" width="900" height="1125" loading="lazy" decoding="async" draggable="false"></figure>
+        <figure class="apparel-slide is-left" data-index="9" aria-hidden="true"><img src="./embedded-17.webp" alt="Young girl wearing a cream occasion dress with a tulle skirt" width="900" height="1125" loading="lazy" decoding="async" draggable="false"></figure>
       </div>
 
       <div class="apparel-meta">
@@ -813,14 +828,14 @@ body.dialog-open{overflow:hidden}
           <p class="apparel-kicker"><span class="apparel-index" id="apparelIndex">01</span><span aria-hidden="true">—</span><span class="apparel-name" id="apparelName">WOMEN'S CROCHET DRESS</span></p>
           <p class="apparel-description" id="apparelDescription">A lightweight openwork crochet dress designed for resort, beachwear, and summer collections.</p>
         </div>
-        <div class="apparel-controls" aria-label="Apparel carousel controls">
+        <div class="apparel-controls" role="group" aria-label="Apparel carousel controls">
           <button class="carousel-btn carousel-prev" id="apparelPrev" type="button" aria-label="Previous garment category"><svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
           <button class="carousel-btn carousel-toggle" id="apparelToggle" type="button" aria-label="Pause garment carousel"><span class="pause-glyph" aria-hidden="true"></span></button>
           <button class="carousel-btn carousel-next" id="apparelNext" type="button" aria-label="Next garment category"><svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
         </div>
       </div>
 
-      <div class="apparel-progress" id="apparelProgress" aria-label="Choose a garment category">
+      <div class="apparel-progress" id="apparelProgress" role="group" aria-label="Choose a garment category">
         <button class="apparel-dot" type="button" data-index="0" aria-label="Show Women's Crochet Dress" aria-current="true"></button>
         <button class="apparel-dot" type="button" data-index="1" aria-label="Show Men's Activewear" aria-current="false"></button>
         <button class="apparel-dot" type="button" data-index="2" aria-label="Show Men's Loungewear" aria-current="false"></button>
@@ -870,7 +885,7 @@ body.dialog-open{overflow:hidden}
       </a>
     </div>
     <div class="rv">
-      <form class="qform" id="quote" novalidate
+      <form class="qform" id="quote" novalidate aria-labelledby="quote-title"
             toolname="requestApparelSourcingQuote"
             tooldescription="Submit an apparel sourcing quote request to 2D Creation for product development, sampling, production, quality, or shipping support."
             action="https://formsubmit.co/karthick@2dcreation.in"
@@ -881,11 +896,11 @@ body.dialog-open{overflow:hidden}
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="_next" value="https://2dcreation.in/thank-you.html">
         <p class="lbl">Quick enquiry</p>
-        <h3>Start your next range.</h3>
+        <h3 id="quote-title">Start your next range.</h3>
         <p class="sub">Share the essentials. We&rsquo;ll follow up with the right production questions.</p>
         <div class="fgrid">
-          <label class="f" for="f-name">Name<input id="f-name" name="name" autocomplete="name"></label>
-          <label class="f" for="f-email">Work email<input id="f-email" name="email" type="email" autocomplete="email"></label>
+          <label class="f" for="f-name">Name<input id="f-name" name="name" autocomplete="name" required aria-describedby="fstatus"></label>
+          <label class="f" for="f-email">Work email<input id="f-email" name="email" type="email" autocomplete="email" required aria-describedby="fstatus"></label>
           <label class="f" for="f-phone">Phone<input id="f-phone" name="phone" type="tel" autocomplete="tel"></label>
           <label class="f" for="f-company">Company<input id="f-company" name="company" autocomplete="organization"></label>
           <label class="f" for="f-country">Country<input id="f-country" name="country" autocomplete="country-name"></label>
@@ -899,7 +914,7 @@ body.dialog-open{overflow:hidden}
         </div>
         <input class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" name="_honey">
         <label class="check" for="f-consent">
-          <input id="f-consent" name="consent" type="checkbox" toolparamdescription="Permission for 2D Creation to use the submitted details to respond to the enquiry.">
+          <input id="f-consent" name="consent" type="checkbox" required aria-describedby="fstatus" toolparamdescription="Permission for 2D Creation to use the submitted details to respond to the enquiry.">
           <span>I agree that 2D Creation may use these details to respond to my enquiry.</span>
         </label>
         <button class="btn submit" type="submit">Send quote request <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
@@ -915,7 +930,7 @@ body.dialog-open{overflow:hidden}
   <div class="wrap">
     <h2>2D Creation</h2>
     <p class="tag">Global Apparel Sourcing Partner</p>
-    <div class="socials" aria-label="Contact links">
+    <div class="socials" role="group" aria-label="Contact links">
       <a href="https://wa.me/919791881884" target="_blank" rel="noopener noreferrer" aria-label="Message 2D Creation on WhatsApp"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg></a>
       <a href="https://www.linkedin.com/in/karthick-subramaniamm" target="_blank" rel="noopener noreferrer" aria-label="2D Creation on LinkedIn"><span class="in" aria-hidden="true">in</span></a>
       <a href="mailto:karthick@2dcreation.in?subject=Apparel%20Sourcing%20Enquiry" aria-label="Email 2D Creation"><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg></a>
@@ -987,6 +1002,48 @@ body.dialog-open{overflow:hidden}
       if(id === "#quote"){ setTimeout(function(){ var n=document.getElementById("f-name"); if(n) n.focus({preventScroll:true}); }, reduce?0:700); }
     });
   });
+
+  /* ---- accessible single-row services scroller ---- */
+  var svcView = document.getElementById("svcView"),
+      svcPrev = document.getElementById("svcPrev"),
+      svcNext = document.getElementById("svcNext"),
+      svcStatus = document.getElementById("svcStatus"),
+      svcCards = Array.prototype.slice.call(document.querySelectorAll("#svcTrack .svc-card")),
+      svcUpdateTimer = 0,
+      svcCardStep = 274;
+  function measureSvcStep(){
+    if(!svcCards.length) return;
+    var styles = window.getComputedStyle(document.getElementById("svcTrack"));
+    svcCardStep = svcCards[0].getBoundingClientRect().width + (parseFloat(styles.columnGap || styles.gap) || 0);
+  }
+  function updateSvcControls(){
+    var max = Math.max(0, svcView.scrollWidth - svcView.clientWidth),
+        current = Math.min(svcCards.length, Math.max(1, Math.round(svcView.scrollLeft / svcCardStep) + 1));
+    svcPrev.disabled = svcView.scrollLeft <= 2;
+    svcNext.disabled = svcView.scrollLeft >= max - 2;
+    svcStatus.textContent = "Service " + current + " of " + svcCards.length;
+  }
+  function scrollServices(direction){
+    svcView.scrollBy({left: direction * svcCardStep, behavior: reduce ? "auto" : "smooth"});
+  }
+  svcPrev.addEventListener("click", function(){ scrollServices(-1); });
+  svcNext.addEventListener("click", function(){ scrollServices(1); });
+  svcView.addEventListener("keydown", function(e){
+    if(e.key === "ArrowLeft" || e.key === "ArrowRight"){
+      e.preventDefault();
+      scrollServices(e.key === "ArrowLeft" ? -1 : 1);
+    }else if(e.key === "Home"){
+      e.preventDefault(); svcView.scrollTo({left:0,behavior:reduce ? "auto" : "smooth"});
+    }else if(e.key === "End"){
+      e.preventDefault(); svcView.scrollTo({left:svcView.scrollWidth,behavior:reduce ? "auto" : "smooth"});
+    }
+  });
+  svcView.addEventListener("scroll", function(){
+    window.clearTimeout(svcUpdateTimer);
+    svcUpdateTimer = window.setTimeout(updateSvcControls, 120);
+  }, {passive:true});
+  window.addEventListener("resize", function(){ measureSvcStep(); updateSvcControls(); }, {passive:true});
+  window.requestAnimationFrame(function(){ measureSvcStep(); updateSvcControls(); });
 
   /* ---- lazy certification-logo backgrounds ---- */
   var certMarquee = document.querySelector(".cert-marquee");
@@ -1115,19 +1172,6 @@ body.dialog-open{overflow:hidden}
     setApparel(0, false);
   }
 
-  /* ---- reveal on scroll ---- */
-  var rvs = document.querySelectorAll(".rv");
-  if(!("IntersectionObserver" in window) || reduce){
-    rvs.forEach(function(el){ el.classList.add("in"); });
-  } else {
-    var ro = new IntersectionObserver(function(entries){
-      entries.forEach(function(en){
-        if(en.isIntersecting){ en.target.classList.add("in"); ro.unobserve(en.target); }
-      });
-    }, {threshold:0.15, rootMargin:"0px 0px -40px 0px"});
-    rvs.forEach(function(el){ ro.observe(el); });
-  }
-
   /* ---- counters ---- */
   var counters = document.querySelectorAll(".cnt");
   function runCount(el){
@@ -1157,7 +1201,12 @@ body.dialog-open{overflow:hidden}
   var navLinks = Array.prototype.slice.call(document.querySelectorAll("#nav a"));
   var sections = navLinks.map(function(a){ return document.querySelector(a.getAttribute("href")); });
   function setActiveNav(current){
-    navLinks.forEach(function(a, i){ a.classList.toggle("active", i === current); });
+    navLinks.forEach(function(a, i){
+      var active = i === current;
+      a.classList.toggle("active", active);
+      if(active) a.setAttribute("aria-current", "location");
+      else a.removeAttribute("aria-current");
+    });
   }
   if("IntersectionObserver" in window){
     var navObserver = new IntersectionObserver(function(entries){
@@ -1191,6 +1240,8 @@ body.dialog-open{overflow:hidden}
   function mark(id, bad){
     var lbl = document.querySelector('label[for="' + id + '"]');
     if(lbl) lbl.classList.toggle("err", bad);
+    var field = document.getElementById(id);
+    if(field) field.setAttribute("aria-invalid", bad ? "true" : "false");
   }
 
   /* ---- Email: validates, then posts to FormSubmit (carries the file) ---- */
@@ -1213,13 +1264,18 @@ body.dialog-open{overflow:hidden}
 
     if(file && file.size > 10 * 1024 * 1024) problems.push("a file under 10 MB");
 
-    if(!form.consent.checked) problems.push("your consent to be contacted");
+    var fileTooLarge = !!(file && file.size > 10 * 1024 * 1024);
+    form["file"].setAttribute("aria-invalid", fileTooLarge ? "true" : "false");
+
+    var consentMissing = !form.consent.checked;
+    form.consent.setAttribute("aria-invalid", consentMissing ? "true" : "false");
+    if(consentMissing) problems.push("your consent to be contacted");
 
     status.className = "fstatus";
     if(problems.length){
       status.classList.add("no");
       status.textContent = "Please add " + problems.join(", ") + ".";
-      var first = document.querySelector("label.f.err input") || (!form.consent.checked ? form.consent : null);
+      var first = form.querySelector('[aria-invalid="true"]');
       if(first) first.focus({preventScroll:false});
       return;
     }
