@@ -125,6 +125,8 @@ ol,ul{margin:0;padding:0;list-style:none}
 :focus-visible{outline:3px solid var(--orange);outline-offset:3px;border-radius:4px}
 .dark-sec :focus-visible,.hdr :focus-visible,.drawer :focus-visible,.foot :focus-visible{outline-color:var(--orange-2)}
 .ac-button:focus-visible,.ac-settings-button:focus-visible,.ac-dialog button:focus-visible,.ac-dialog input:focus-visible{outline-color:var(--orange)}
+.ac-settings-button{right:12px;bottom:12px;min-height:34px;padding:6px 11px;box-shadow:0 6px 18px rgba(22,32,13,.18);font-size:11.5px;line-height:1}
+@media(max-width:700px){.ac-settings-button{right:8px;bottom:8px}}
 .wrap{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:24px}
 .ico{width:22px;height:22px;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;fill:none}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -565,8 +567,9 @@ label.f.err input,label.f.err textarea{border-color:#B4402A;box-shadow:0 0 0 3px
 .answer-card a{color:var(--orange);font-weight:700;text-underline-offset:4px}
 @media(max-width:900px){.seo-path-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.seo-path-head,.answer-head{grid-template-columns:1fr;gap:16px}.seo-path-grid,.answer-grid{grid-template-columns:1fr}.seo-path-card,.answer-card{padding:22px}.seo-path-card{min-height:220px}}
-.legal-links a{padding:8px 0;color:rgba(255,255,255,.78);font:600 13px/1.4 var(--body);text-decoration:underline;text-underline-offset:4px}
-.legal-links a:hover{color:#fff}
+.legal-links a,.legal-links button{padding:8px 0;color:rgba(255,255,255,.78);font:600 13px/1.4 var(--body);text-decoration:underline;text-underline-offset:4px}
+.legal-links button{border:0;background:transparent;cursor:pointer}
+.legal-links a:hover,.legal-links button:hover{color:#fff}
 .legal-dialog{width:min(820px,calc(100% - 28px));max-height:min(86vh,900px);padding:0;border:0;border-radius:22px;background:#fbfcf8;color:var(--ink);box-shadow:0 35px 100px rgba(0,0,0,.42)}
 .legal-dialog::backdrop{background:rgba(12,18,8,.72);backdrop-filter:blur(5px)}
 .legal-dialog-inner{position:relative;padding:38px 42px 46px;overflow:auto;max-height:86vh}
@@ -942,6 +945,7 @@ body.dialog-open{overflow:hidden}
       <a href="https://2dcreation.in/privacy.html" data-dialog="privacyDialog">Privacy Policy</a>
       <a href="https://2dcreation.in/terms.html" data-dialog="termsDialog">Terms &amp; Conditions</a>
       <a href="https://2dcreation.in/faq.html" data-dialog="faqDialog">FAQ</a>
+      <button type="button" data-ac-open>Analytics settings</button>
     </nav>
     <div class="foot-bot">© <span id="yr">2026</span> 2D Creation. All Rights Reserved.</div>
   </div>
@@ -1367,10 +1371,15 @@ body.dialog-open{overflow:hidden}
 
     var checkbox=dialog.querySelector("#ac-analytics");
     var status=dialog.querySelector(".ac-status");
+    var settingsHideTimer=0;
 
-    function refresh(){
+    function refresh(showTemporary){
       banner.hidden=choice!==null;
-      settingsButton.hidden=choice===null;
+      window.clearTimeout(settingsHideTimer);
+      settingsButton.hidden=!(choice!==null&&showTemporary);
+      if(!settingsButton.hidden){
+        settingsHideTimer=window.setTimeout(function(){settingsButton.hidden=true;},4000);
+      }
       checkbox.checked=choice==="granted";
     }
     function openSettings(){
@@ -1384,15 +1393,16 @@ body.dialog-open{overflow:hidden}
       else{dialog.removeAttribute("open");}
     }
 
-    banner.querySelector('[data-ac="accept"]').addEventListener("click",function(){setConsent("granted");refresh();});
-    banner.querySelector('[data-ac="reject"]').addEventListener("click",function(){setConsent("denied");refresh();});
+    banner.querySelector('[data-ac="accept"]').addEventListener("click",function(){setConsent("granted");refresh(true);});
+    banner.querySelector('[data-ac="reject"]').addEventListener("click",function(){setConsent("denied");refresh(true);});
     banner.querySelector('[data-ac="settings"]').addEventListener("click",openSettings);
     settingsButton.addEventListener("click",openSettings);
+    document.querySelectorAll("[data-ac-open]").forEach(function(button){button.addEventListener("click",openSettings);});
     dialog.querySelector(".ac-dialog-close").addEventListener("click",closeSettings);
-    dialog.querySelector('[data-ac-dialog="reject"]').addEventListener("click",function(){setConsent("denied");refresh();closeSettings();});
-    dialog.querySelector('[data-ac-dialog="save"]').addEventListener("click",function(){setConsent(checkbox.checked?"granted":"denied");status.textContent="Your analytics choice has been saved.";refresh();window.setTimeout(closeSettings,450);});
+    dialog.querySelector('[data-ac-dialog="reject"]').addEventListener("click",function(){setConsent("denied");refresh(true);closeSettings();});
+    dialog.querySelector('[data-ac-dialog="save"]').addEventListener("click",function(){setConsent(checkbox.checked?"granted":"denied");status.textContent="Your analytics choice has been saved.";refresh(true);window.setTimeout(closeSettings,450);});
     dialog.addEventListener("click",function(event){if(event.target===dialog){closeSettings();}});
-    refresh();
+    refresh(false);
   }
 
   function attachEventTracking(){

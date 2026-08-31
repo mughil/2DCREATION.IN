@@ -115,10 +115,15 @@
 
     var checkbox=dialog.querySelector("#ac-analytics");
     var status=dialog.querySelector(".ac-status");
+    var settingsHideTimer=0;
 
-    function refresh(){
+    function refresh(showTemporary){
       banner.hidden=choice!==null;
-      settingsButton.hidden=choice===null;
+      window.clearTimeout(settingsHideTimer);
+      settingsButton.hidden=!(choice!==null&&showTemporary);
+      if(!settingsButton.hidden){
+        settingsHideTimer=window.setTimeout(function(){settingsButton.hidden=true;},4000);
+      }
       checkbox.checked=choice==="granted";
     }
     function openSettings(){
@@ -132,15 +137,16 @@
       else{dialog.removeAttribute("open");}
     }
 
-    banner.querySelector('[data-ac="accept"]').addEventListener("click",function(){setConsent("granted");refresh();});
-    banner.querySelector('[data-ac="reject"]').addEventListener("click",function(){setConsent("denied");refresh();});
+    banner.querySelector('[data-ac="accept"]').addEventListener("click",function(){setConsent("granted");refresh(true);});
+    banner.querySelector('[data-ac="reject"]').addEventListener("click",function(){setConsent("denied");refresh(true);});
     banner.querySelector('[data-ac="settings"]').addEventListener("click",openSettings);
     settingsButton.addEventListener("click",openSettings);
+    document.querySelectorAll("[data-ac-open]").forEach(function(button){button.addEventListener("click",openSettings);});
     dialog.querySelector(".ac-dialog-close").addEventListener("click",closeSettings);
-    dialog.querySelector('[data-ac-dialog="reject"]').addEventListener("click",function(){setConsent("denied");refresh();closeSettings();});
-    dialog.querySelector('[data-ac-dialog="save"]').addEventListener("click",function(){setConsent(checkbox.checked?"granted":"denied");status.textContent="Your analytics choice has been saved.";refresh();window.setTimeout(closeSettings,450);});
+    dialog.querySelector('[data-ac-dialog="reject"]').addEventListener("click",function(){setConsent("denied");refresh(true);closeSettings();});
+    dialog.querySelector('[data-ac-dialog="save"]').addEventListener("click",function(){setConsent(checkbox.checked?"granted":"denied");status.textContent="Your analytics choice has been saved.";refresh(true);window.setTimeout(closeSettings,450);});
     dialog.addEventListener("click",function(event){if(event.target===dialog){closeSettings();}});
-    refresh();
+    refresh(false);
   }
 
   function attachEventTracking(){
