@@ -1,4 +1,20 @@
 User-agent: *
 Allow: /
 
+# AI search and answer-engine crawlers may access the same public content.
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
 Sitemap: https://2dcreation.in/sitemap.xml
