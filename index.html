@@ -1196,6 +1196,7 @@ body.dialog-open{overflow:hidden}
   }
 
   /* ---- form ---- */
+  var QUOTE_ENDPOINT = "https://script.google.com/macros/s/AKfycbyQSuxZy9-HMQk_yQksxdueO0jNJ_WsBPpGST4jwzkOxu_5oifPyoikpJ2Lo8Z8Fa_dEw/exec";
   var form    = document.getElementById("quote"),
       status  = document.getElementById("fstatus"),
       sendBtn = form.querySelector(".submit");
@@ -1248,8 +1249,54 @@ body.dialog-open{overflow:hidden}
     status.classList.add("ok");
     status.textContent = "Sending your enquiry…";
     sendBtn.disabled = true;
-    if(window.mark2DCreationQuoteSubmitted){window.mark2DCreationQuoteSubmitted();}
-    form.submit();          /* real POST — file included, browser goes to the thank-you page */
+
+    /* ---- Posts to the Google Apps Script backend (logs to Sheet + emails) ---- */
+    function finishSubmit(fileData, fileName, fileType){
+      var payload = {
+        name: name,
+        email: email,
+        phone: val("phone"),
+        company: val("company"),
+        country: val("country"),
+        date: val("date"),
+        details: val("details"),
+        honey: form["_honey"].value,
+        fileData: fileData || "",
+        fileName: fileName || "",
+        fileType: fileType || ""
+      };
+
+      fetch(QUOTE_ENDPOINT, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {"Content-Type": "text/plain;charset=utf-8"},
+        body: JSON.stringify(payload)
+      }).then(function(){
+        if(window.mark2DCreationQuoteSubmitted){window.mark2DCreationQuoteSubmitted();}
+        window.location.href = "https://2dcreation.in/thank-you.html";
+      }).catch(function(){
+        sendBtn.disabled = false;
+        status.className = "fstatus no";
+        status.textContent = "Something went wrong sending your enquiry. Please try again or email karthick@2dcreation.in directly.";
+      });
+    }
+
+    if(file){
+      var reader = new FileReader();
+      reader.onload = function(){
+        var result = String(reader.result || "");
+        var base64 = result.indexOf(",") > -1 ? result.split(",")[1] : "";
+        finishSubmit(base64, file.name, file.type);
+      };
+      reader.onerror = function(){
+        sendBtn.disabled = false;
+        status.className = "fstatus no";
+        status.textContent = "Could not read your file. Please try again without it or choose a different file.";
+      };
+      reader.readAsDataURL(file);
+    } else {
+      finishSubmit(null, null, null);
+    }
   });
 })();
 </script>
