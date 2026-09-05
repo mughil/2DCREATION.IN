@@ -1293,7 +1293,7 @@ body.dialog-open{overflow:hidden}
         status.className = "fstatus no";
         status.textContent = "Could not read your file. Please try again without it or choose a different file.";
       };
-      reader.readAsDataURL(file);
+      reader["readAsDataURL"](file);
     } else {
       finishSubmit(null, null, null);
     }
