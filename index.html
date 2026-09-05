@@ -1268,9 +1268,16 @@ body.dialog-open{overflow:hidden}
 
       fetch(QUOTE_ENDPOINT, {
         method: "POST",
-        mode: "no-cors",
         headers: {"Content-Type": "text/plain;charset=utf-8"},
         body: JSON.stringify(payload)
+      }).then(function(res){
+        return res.text().then(function(bodyText){
+          var parsed = null;
+          try { parsed = JSON.parse(bodyText); } catch(e){}
+          if(parsed && parsed.success === false){
+            throw new Error(parsed.message || "Submission was not accepted.");
+          }
+        });
       }).then(function(){
         if(window.mark2DCreationQuoteSubmitted){window.mark2DCreationQuoteSubmitted();}
         window.location.href = "https://2dcreation.in/thank-you.html";
