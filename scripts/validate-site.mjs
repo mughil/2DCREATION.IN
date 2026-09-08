@@ -40,6 +40,7 @@ const expectedPages = [
   "404.html",
   "OPEN-THIS-FIRST.html",
   "apparel-sourcing-services.html",
+  "departement.html",
   "faq.html",
   "hoodie-sweatshirt-sourcing.html",
   "index.html",
