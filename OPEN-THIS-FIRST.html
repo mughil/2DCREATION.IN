@@ -417,10 +417,10 @@ ol,ul{margin:0;padding:0;list-style:none}
 .qform .sub{margin-top:10px;font-size:14px;color:var(--muted);padding-bottom:16px;border-bottom:1px solid var(--line)}
 .fgrid{margin-top:18px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px 18px}
 label.f{display:block;min-width:0;font-size:12.5px;font-weight:600;color:var(--ink-2)}
-label.f input,label.f textarea{width:100%;margin-top:7px;padding:11px 13px;border:1px solid var(--line);
+label.f input,label.f textarea,label.f select{width:100%;margin-top:7px;padding:11px 13px;border:1px solid var(--line);
   border-radius:9px;background:#FCFDFA;font-size:14px;font-family:var(--body);min-width:0;transition:border-color .2s,box-shadow .2s}
 label.f textarea{resize:vertical;min-height:104px}
-label.f input:focus,label.f textarea:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px var(--orange-soft)}
+label.f input:focus,label.f textarea:focus,label.f select:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px var(--orange-soft)}
 label.f.err input,label.f.err textarea{border-color:#B4402A;box-shadow:0 0 0 3px rgba(180,64,42,.12)}
 .full{grid-column:1/-1}
 .filebox{margin-top:14px;border:1px dashed var(--line);border-radius:11px;padding:13px 15px;background:#FAFBF6}
@@ -520,7 +520,7 @@ label.f.err input,label.f.err textarea{border-color:#B4402A;box-shadow:0 0 0 3px
   .qform .sub{font-size:13.5px;line-height:1.65;padding-bottom:18px}
   .fgrid{grid-template-columns:minmax(0,1fr);gap:18px;margin-top:20px}
   label.f{font-size:13px}
-  label.f input,label.f textarea{min-height:48px;padding:12px 13px;font-size:16px}
+  label.f input,label.f textarea,label.f select{min-height:48px;padding:12px 13px;font-size:16px}
   label.f textarea{min-height:132px}
   .filebox{padding:15px 14px}
   .filebox input{min-height:44px;font-size:13px}
@@ -917,7 +917,9 @@ body.dialog-open{overflow:hidden}
           <label class="f" for="f-company">Company<input id="f-company" name="company" autocomplete="organization"></label>
           <label class="f" for="f-country">Country<input id="f-country" name="country" autocomplete="country-name"></label>
           <label class="f" for="f-date">Target delivery date<input id="f-date" name="date" type="date"></label>
-          <label class="f full" for="f-details">Project details<textarea id="f-details" name="details" toolparamdescription="Describe the garment, fabric, construction, quantity, quality level, delivery market, and target date when known." placeholder="Tell us about the style, fabric, quality level, or delivery goal."></textarea></label>
+          <label class="f" for="f-product">Product type<select id="f-product" name="product" toolparamdescription="Garment category for this quote request."><option value="">Select a product</option><option value="T-shirts &amp; casualwear">T-shirts &amp; casualwear</option><option value="Hoodies &amp; sweatshirts">Hoodies &amp; sweatshirts</option><option value="Womenswear &amp; kidswear">Womenswear &amp; kidswear</option><option value="Other garment">Other garment</option></select></label>
+          <label class="f" for="f-quantity">Approximate quantity (pieces)<input id="f-quantity" name="quantity" type="number" min="1" step="1" inputmode="numeric" placeholder="If known" toolparamdescription="Estimated order quantity in pieces, if known."></label>
+          <label class="f full" for="f-details">Project details<textarea id="f-details" name="details" toolparamdescription="Describe the garment, fabric, construction, quality level, delivery market, and target date when known." placeholder="Tell us about the style, fabric, quality level, or delivery goal."></textarea></label>
         </div>
         <div class="filebox">
           <label for="f-file">Tech pack or reference file</label>
@@ -1215,6 +1217,12 @@ body.dialog-open{overflow:hidden}
       status  = document.getElementById("fstatus"),
       sendBtn = form.querySelector(".submit");
 
+  /* Carry the selected garment from a category page into the quote request. */
+  var productFromPage = new URLSearchParams(window.location.search).get("product");
+  if(productFromPage && Array.from(form.elements.product.options).some(function(option){return option.value === productFromPage;})){
+    form.elements.product.value = productFromPage;
+  }
+
   function val(n){ var el = form[n]; return el ? String(el.value).trim() : ""; }
 
   function mark(id, bad){
@@ -1241,6 +1249,11 @@ body.dialog-open{overflow:hidden}
     mark("f-email", !emailOk);
     if(!email) problems.push("your work email");
     else if(!emailOk) problems.push("a valid email address");
+
+    /* novalidate skips min/step, so check the quantity here. */
+    var quantityBad = !form.quantity.validity.valid;
+    mark("f-quantity", quantityBad);
+    if(quantityBad) problems.push("a whole-number quantity of 1 or more");
 
     if(file && file.size > 10 * 1024 * 1024) problems.push("a file under 10 MB");
 
@@ -1273,7 +1286,8 @@ body.dialog-open{overflow:hidden}
         company: val("company"),
         country: val("country"),
         date: val("date"),
-        details: val("details"),
+        /* The existing Sheet/email backend accepts details; include the new fields there. */
+        details: "Product type: " + (val("product") || "Not specified") + "\nApproximate quantity (pieces): " + (val("quantity") ? String(Number(val("quantity"))) : "Not specified") + "\nProject details: " + val("details"),
         honey: form["_honey"].value,
         fileData: fileData || "",
         fileName: fileName || "",
