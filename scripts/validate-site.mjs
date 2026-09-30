@@ -38,7 +38,6 @@ const webpFiles = files.filter((file) => file.endsWith(".webp"));
 
 const expectedPages = [
   "404.html",
-  "OPEN-THIS-FIRST.html",
   "apparel-sourcing-services.html",
   "departement.html",
   "faq.html",
@@ -56,9 +55,8 @@ const expectedPages = [
 for (const page of expectedPages) {
   if (!fs.existsSync(path.join(root, page))) errors.push(`${page}: required page is missing`);
 }
-if (htmlFiles.length !== expectedPages.length) {
-  errors.push(`Expected ${expectedPages.length} HTML pages but found ${htmlFiles.length}`);
-}
+// Required entry pages must exist; every discovered HTML file (including
+// new blog articles) is validated below without a fixed total page count.
 if (webpFiles.length !== 17) {
   errors.push(`Expected 17 WebP images but found ${webpFiles.length}`);
 }
@@ -222,7 +220,7 @@ if (errors.length) {
 }
 
 console.log("Website validation passed");
-console.log(`- ${htmlFiles.length} required HTML pages`);
+console.log(`- ${htmlFiles.length} HTML pages validated; ${expectedPages.length} required entry pages present`);
 console.log(`- ${webpFiles.length} valid WebP images`);
 console.log(`- ${referenceCount} local references resolved`);
 console.log(`- JavaScript syntax and JSON-LD are valid`);
