@@ -924,7 +924,7 @@ body.dialog-open{overflow:hidden}
         <div class="filebox">
           <label for="f-file">Tech pack or reference file</label>
           <p id="f-file-help">PDF, PNG, JPG, or ZIP · up to 10 MB</p>
-          <input id="f-file" name="file" type="file" accept=".pdf,.png,.jpg,.jpeg,.zip" aria-describedby="f-file-help" toolparamdescription="Optional PDF, PNG, JPG, or ZIP reference file up to 10 MB.">
+          <input id="f-file" name="attachment" type="file" accept=".pdf,.png,.jpg,.jpeg,.zip" aria-describedby="f-file-help" toolparamdescription="Optional PDF, PNG, JPG, or ZIP reference file up to 10 MB.">
         </div>
         <input class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" name="_honey">
         <label class="check" for="f-consent">
@@ -1212,7 +1212,6 @@ body.dialog-open{overflow:hidden}
   }
 
   /* ---- form ---- */
-  var QUOTE_ENDPOINT = "https://script.google.com/macros/s/AKfycbyQSuxZy9-HMQk_yQksxdueO0jNJ_WsBPpGST4jwzkOxu_5oifPyoikpJ2Lo8Z8Fa_dEw/exec";
   var form    = document.getElementById("quote"),
       status  = document.getElementById("fstatus"),
       sendBtn = form.querySelector(".submit");
@@ -1239,7 +1238,7 @@ body.dialog-open{overflow:hidden}
 
     var name  = val("name"),
         email = val("email"),
-        file  = form["file"].files[0],
+        file  = form["attachment"].files[0],
         problems = [];
 
     mark("f-name", !name);
@@ -1258,7 +1257,7 @@ body.dialog-open{overflow:hidden}
     if(file && file.size > 10 * 1024 * 1024) problems.push("a file under 10 MB");
 
     var fileTooLarge = !!(file && file.size > 10 * 1024 * 1024);
-    form["file"].setAttribute("aria-invalid", fileTooLarge ? "true" : "false");
+    form["attachment"].setAttribute("aria-invalid", fileTooLarge ? "true" : "false");
 
     var consentMissing = !form.consent.checked;
     form.consent.setAttribute("aria-invalid", consentMissing ? "true" : "false");
@@ -1277,61 +1276,9 @@ body.dialog-open{overflow:hidden}
     status.textContent = "Sending your enquiry…";
     sendBtn.disabled = true;
 
-    /* ---- Posts to the Google Apps Script backend (logs to Sheet + emails) ---- */
-    function finishSubmit(fileData, fileName, fileType){
-      var payload = {
-        name: name,
-        email: email,
-        phone: val("phone"),
-        company: val("company"),
-        country: val("country"),
-        date: val("date"),
-        /* The existing Sheet/email backend accepts details; include the new fields there. */
-        details: "Product type: " + (val("product") || "Not specified") + "\nApproximate quantity (pieces): " + (val("quantity") ? String(Number(val("quantity"))) : "Not specified") + "\nProject details: " + val("details"),
-        honey: form["_honey"].value,
-        fileData: fileData || "",
-        fileName: fileName || "",
-        fileType: fileType || ""
-      };
-
-      fetch(QUOTE_ENDPOINT, {
-        method: "POST",
-        headers: {"Content-Type": "text/plain;charset=utf-8"},
-        body: JSON.stringify(payload)
-      }).then(function(res){
-        return res.text().then(function(bodyText){
-          var parsed = null;
-          try { parsed = JSON.parse(bodyText); } catch(e){}
-          if(parsed && parsed.success === false){
-            throw new Error(parsed.message || "Submission was not accepted.");
-          }
-        });
-      }).then(function(){
-        if(window.mark2DCreationQuoteSubmitted){window.mark2DCreationQuoteSubmitted();}
-        window.location.href = "https://2dcreation.in/thank-you.html";
-      }).catch(function(){
-        sendBtn.disabled = false;
-        status.className = "fstatus no";
-        status.textContent = "Something went wrong sending your enquiry. Please try again or email karthick@2dcreation.in directly.";
-      });
-    }
-
-    if(file){
-      var reader = new FileReader();
-      reader.onload = function(){
-        var result = String(reader.result || "");
-        var base64 = result.indexOf(",") > -1 ? result.split(",")[1] : "";
-        finishSubmit(base64, file.name, file.type);
-      };
-      reader.onerror = function(){
-        sendBtn.disabled = false;
-        status.className = "fstatus no";
-        status.textContent = "Could not read your file. Please try again without it or choose a different file.";
-      };
-      reader["readAsDataURL"](file);
-    } else {
-      finishSubmit(null, null, null);
-    }
+    /* Submit through the configured multipart endpoint with native attachments. */
+    if(window.mark2DCreationQuoteSubmitted){window.mark2DCreationQuoteSubmitted();}
+    HTMLFormElement.prototype.submit.call(form);
   });
 })();
 </script>
