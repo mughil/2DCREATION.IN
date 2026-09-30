@@ -933,6 +933,8 @@ body.dialog-open{overflow:hidden}
         </label>
         <button class="btn submit" type="submit">Send quote request <svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
         <p class="fstatus" id="fstatus" role="status" aria-live="polite"></p>
+        <p style="margin-top:14px;font-size:14px;line-height:1.6">If online submission shows a server error, email your enquiry directly. Attach your tech pack or reference file in your email.</p>
+        <a class="btn btn-light" id="quote-email-fallback" href="mailto:karthick@2dcreation.in?subject=Apparel%20Sourcing%20Enquiry" style="margin-top:12px">Email enquiry instead</a>
       </form>
     </div>
   </div>
@@ -1230,6 +1232,29 @@ body.dialog-open{overflow:hidden}
     var field = document.getElementById(id);
     if(field) field.setAttribute("aria-invalid", bad ? "true" : "false");
   }
+
+  /* Keep an email alternative available when the form provider is unavailable. */
+  var emailFallback = document.getElementById("quote-email-fallback");
+  emailFallback.addEventListener("click", function(){
+    var details = [
+      "Name: " + val("name"),
+      "Work email: " + val("email"),
+      "Phone: " + val("phone"),
+      "Company: " + val("company"),
+      "Country: " + val("country"),
+      "Target delivery date: " + val("date"),
+      "Product type: " + val("product"),
+      "Approximate quantity (pieces): " + val("quantity"),
+      "",
+      "Project details:",
+      val("details")
+    ];
+    var attachment = form["attachment"].files[0];
+    if(attachment){details.push("", "Reference file to attach manually: " + attachment.name);}
+    emailFallback.href = "mailto:karthick@2dcreation.in?subject=" +
+      encodeURIComponent("Apparel Sourcing Enquiry") + "&body=" +
+      encodeURIComponent(details.join("\n"));
+  });
 
   /* ---- Email: validates, then posts to FormSubmit (carries the file) ---- */
   form.addEventListener("submit", function(e){
