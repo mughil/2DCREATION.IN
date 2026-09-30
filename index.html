@@ -900,13 +900,9 @@ body.dialog-open{overflow:hidden}
       <form class="qform" id="quote" novalidate aria-labelledby="quote-title"
             toolname="requestApparelSourcingQuote"
             tooldescription="Submit an apparel sourcing quote request to 2D Creation for product development, sampling, production, quality, or shipping support."
-            action="https://formsubmit.co/karthick@2dcreation.in"
+            action="https://script.google.com/macros/s/AKfycby_5B59c0cJZn0g3opmVJ1sa8f2xeM_sFjeQC2srD8EKaC90yNcctBedxwNf43negLBqg/exec"
             method="POST" enctype="multipart/form-data">
-        <!-- FormSubmit settings -->
-        <input type="hidden" name="_subject" value="New quote request — 2D Creation">
-        <input type="hidden" name="_template" value="table">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_next" value="https://2dcreation.in/thank-you.html">
+        <!-- Enquiries are sent to the verified Google Apps Script deployment. -->
         <p class="lbl">Quick enquiry</p>
         <h3 id="quote-title">Start your next range.</h3>
         <p class="sub">Share the essentials. We&rsquo;ll follow up with the right production questions.</p>
@@ -1256,7 +1252,10 @@ body.dialog-open{overflow:hidden}
       encodeURIComponent(details.join("\n"));
   });
 
-  /* ---- Email: validates, then posts to FormSubmit (carries the file) ---- */
+  var QUOTE_ENDPOINT = "https://script.google.com/macros/s/AKfycby_5B59c0cJZn0g3opmVJ1sa8f2xeM_sFjeQC2srD8EKaC90yNcctBedxwNf43negLBqg/exec";
+  var pendingRequestId = null;
+  form.addEventListener("input", function(){ if(!sendBtn.disabled) pendingRequestId = null; });
+  /* Validate, then submit to the enquiry backend. */
   form.addEventListener("submit", function(e){
     e.preventDefault();
     if(form["_honey"].value) return;                 /* honeypot */
@@ -1301,9 +1300,62 @@ body.dialog-open{overflow:hidden}
     status.textContent = "Sending your enquiry…";
     sendBtn.disabled = true;
 
-    /* Submit through the configured multipart endpoint with native attachments. */
-    if(window.mark2DCreationQuoteSubmitted){window.mark2DCreationQuoteSubmitted();}
-    HTMLFormElement.prototype.submit.call(form);
+    if(!pendingRequestId){
+      pendingRequestId = window.crypto && window.crypto.randomUUID ?
+        window.crypto.randomUUID() : Date.now().toString(36) + "_" + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+    }
+    var payload = {
+      requestId: pendingRequestId, name: name, email: email,
+      phone: val("phone"), company: val("company"), country: val("country"),
+      date: val("date"), product: val("product"), quantity: val("quantity"),
+      details: val("details"), consent: form.consent.checked,
+      honey: val("_honey"), fileData: "", fileName: ""
+    };
+    function failed(message){
+      sendBtn.disabled = false;
+      status.className = "fstatus no";
+      status.textContent = message;
+    }
+    function send(){
+      var controller = new AbortController();
+      var timeout = window.setTimeout(function(){controller.abort();}, 45000);
+      fetch(QUOTE_ENDPOINT, {
+        method: "POST", headers: {"Content-Type": "text/plain;charset=utf-8"},
+        body: JSON.stringify(payload), signal: controller.signal, redirect: "follow"
+      }).then(function(response){
+        if(!response.ok) throw new Error("Server error");
+        return response.json();
+      }).then(function(result){
+        if(result.success !== true || result.saved !== true){
+          failed(result.saved === true ? "Your enquiry was saved, but confirmation failed. Please email us directly; avoid submitting it again." :
+            "Your enquiry could not be accepted. Please check your details or use Email enquiry instead.");
+          return;
+        }
+        if(result.emailSent !== true){
+          status.className = "fstatus ok";
+          status.textContent = "Your enquiry is saved in our records, but the email notification is unconfirmed. Please use Email enquiry instead so our team is notified.";
+          sendBtn.textContent = "Enquiry saved";
+          return;
+        }
+        if(window.mark2DCreationQuoteSubmitted){window.mark2DCreationQuoteSubmitted();}
+        window.location.href = "https://2dcreation.in/thank-you.html";
+      }).catch(function(){
+        failed("We could not confirm receipt. Your details are still here. Retry to check the same enquiry, or use Email enquiry instead. Attach your file manually when emailing.");
+      }).finally(function(){window.clearTimeout(timeout);});
+    }
+    if(file){
+      var reader = new FileReader();
+      reader.onload = function(){
+        var data = String(reader.result || "");
+        var comma = data.indexOf(",");
+        if(comma < 0){failed("Could not read your attachment. Please choose the file again.");return;}
+        payload.fileData = data.slice(comma + 1);
+        payload.fileName = file.name;
+        send();
+      };
+      reader.onerror = function(){failed("Could not read your attachment. Please choose the file again or email it directly.");};
+      reader.readAsDataURL(file);
+    } else { send(); }
   });
 })();
 </script>
