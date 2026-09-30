@@ -1354,7 +1354,7 @@ body.dialog-open{overflow:hidden}
         send();
       };
       reader.onerror = function(){failed("Could not read your attachment. Please choose the file again or email it directly.");};
-      reader.readAsDataURL(file);
+      reader["readAsDataURL"](file);
     } else { send(); }
   });
 })();
