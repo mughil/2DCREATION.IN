@@ -98,7 +98,8 @@ for (const file of htmlFiles) {
   }
 
   let scriptNumber = 0;
-  for (const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
+  // Recognize whitespace and attributes on browser-accepted script end tags.
+  for (const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script(?=[\t\n\f\r />])[^>]*>/gi)) {
     scriptNumber += 1;
     const attrs = attributes(`<script ${match[1]}>`);
     if (attrs.has("src")) continue;
