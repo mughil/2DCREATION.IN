@@ -57,8 +57,16 @@ for (const page of expectedPages) {
 }
 // Required entry pages must exist; every discovered HTML file (including
 // new blog articles) is validated below without a fixed total page count.
-if (webpFiles.length !== 17) {
-  errors.push(`Expected 17 WebP images but found ${webpFiles.length}`);
+// Keep every approved original; responsive derivatives may be added.
+const requiredImages = [
+  ...Array.from({ length: 7 }, (_, i) => `embedded-${String(i + 1).padStart(2, "0")}-opt.webp`),
+  "embedded-08-720.webp",
+  ...Array.from({ length: 9 }, (_, i) => `embedded-${String(i + 9).padStart(2, "0")}.webp`)
+];
+for (const image of requiredImages) {
+  if (!fs.existsSync(path.join(root, image))) {
+    errors.push(`${image}: required approved image is missing`);
+  }
 }
 
 const cname = path.join(root, "CNAME");
