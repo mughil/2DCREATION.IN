@@ -1,7 +1,7 @@
 {
   "name": "2D Creation",
   "short_name": "2D Creation",
-  "start_url": "./index.html",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#FBFCF8",
   "theme_color": "#1E2A13",
