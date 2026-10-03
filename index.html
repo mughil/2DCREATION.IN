@@ -686,6 +686,13 @@
   if(productFromPage && Array.from(form.elements.product.options).some(function(option){return option.value === productFromPage;})){
     form.elements.product.value = productFromPage;
   }
+  /* Category-page CTAs link to /#quote (no query URL); pick the garment from the page the visitor came from. */
+  var cameFrom = String(document.referrer || "");
+  if(!productFromPage && window.location.hash === "#quote" && cameFrom.indexOf(window.location.origin + "/") === 0){
+    var byPage = {"/tshirt-casualwear-sourcing.html":"T-shirts & casualwear","/hoodie-sweatshirt-sourcing.html":"Hoodies & sweatshirts","/womenswear-kidswear-sourcing.html":"Womenswear & kidswear"};
+    var fromRef = byPage[cameFrom.slice(window.location.origin.length).split(/[?#]/)[0]];
+    if(fromRef && Array.from(form.elements.product.options).some(function(option){return option.value === fromRef;})){ form.elements.product.value = fromRef; }
+  }
 
   function val(n){ var el = form[n]; return el ? String(el.value).trim() : ""; }
 
