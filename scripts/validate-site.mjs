@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import vm from "node:vm";
+import { isHomepageIndexLink, HOMEPAGE_LINK_MESSAGE } from "./homepage-links.mjs";
 
 const root = process.cwd();
 const errors = [];
@@ -200,6 +201,12 @@ for (const file of htmlFiles) {
   const html = htmlByFile.get(file);
   for (const match of html.matchAll(/\b(?:href|src|poster)\s*=\s*(["'])(.*?)\1/gi)) {
     checkReference(file, match[2]);
+  }
+  for (const match of html.matchAll(/<a\b[^>]*?\bhref\s*=\s*(["'])(.*?)\1/gi)) {
+    const dir = path.dirname(relative(file));
+    if (isHomepageIndexLink(match[2], dir === "." ? "" : dir)) {
+      fail(file, `${HOMEPAGE_LINK_MESSAGE}: "${match[2]}"`);
+    }
   }
   for (const match of html.matchAll(/\bsrcset\s*=\s*(["'])(.*?)\1/gi)) {
     for (const candidate of match[2].split(",")) checkReference(file, candidate.trim().split(/\s+/)[0]);
