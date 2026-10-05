@@ -39,12 +39,14 @@ const webpFiles = files.filter((file) => file.endsWith(".webp"));
 
 const expectedPages = [
   "404.html",
+  "apparel-sourcing-india.html",
   "apparel-sourcing-services.html",
   "departement.html",
   "faq.html",
   "hoodie-sweatshirt-sourcing.html",
   "index.html",
   "privacy.html",
+  "private-label-clothing-sourcing.html",
   "product-development-sampling.html",
   "production-quality-control.html",
   "terms.html",
@@ -229,6 +231,80 @@ for (const file of webpFiles) {
   if (!valid) fail(file, "invalid WebP file signature");
 }
 
+// ---- SEO metadata checks -------------------------------------------------
+// Every indexable page needs one H1, a title and description of sensible length,
+// a canonical that matches its own URL, matching hreflang tags, and a sitemap entry.
+const SITE_ORIGIN = "https://2dcreation.in";
+const SITEMAP_EXEMPT = new Set(["privacy.html", "terms.html"]);
+const sitemapPath = path.join(root, "sitemap.xml");
+const sitemapLocs = new Set();
+if (fs.existsSync(sitemapPath)) {
+  for (const match of fs.readFileSync(sitemapPath, "utf8").matchAll(/<loc>([^<]+)<\/loc>/g)) {
+    sitemapLocs.add(match[1].trim());
+  }
+} else {
+  errors.push("sitemap.xml: file is missing");
+}
+
+function decodeEntities(value) {
+  return value
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&apos;/g, "'")
+    .replace(/&rsquo;/g, "\u2019");
+}
+
+function expectedCanonical(rel) {
+  if (rel === "index.html") return `${SITE_ORIGIN}/`;
+  if (rel.endsWith("/index.html")) return `${SITE_ORIGIN}/${rel.slice(0, -"index.html".length)}`;
+  return `${SITE_ORIGIN}/${rel}`;
+}
+
+const indexableCanonicals = new Set();
+for (const file of htmlFiles) {
+  const html = htmlByFile.get(file);
+  const rel = relative(file);
+  const robots = (html.match(/<meta\s+name=["']robots["']\s+content=["']([^"']*)["']/i) || [])[1] || "";
+  if (/noindex/i.test(robots)) continue;
+
+  const canonicalTag = html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i);
+  const canonical = canonicalTag ? canonicalTag[1] : "";
+  if (!canonical) fail(file, "indexable page is missing a canonical link");
+  else if (canonical !== expectedCanonical(rel)) fail(file, `canonical "${canonical}" does not match the page URL`);
+  else indexableCanonicals.add(canonical);
+
+  const titleMatch = html.match(/<title>([\s\S]*?)<\/title>/i);
+  const title = titleMatch ? decodeEntities(titleMatch[1].trim()) : "";
+  if (!title) fail(file, "indexable page is missing a title");
+  else if (title.length > 70) fail(file, `title is ${title.length} characters (maximum 70)`);
+
+  const descMatch = html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i);
+  const description = descMatch ? decodeEntities(descMatch[1].trim()) : "";
+  if (!description) fail(file, "indexable page is missing a meta description");
+  else if (description.length < 70 || description.length > 170) {
+    fail(file, `meta description is ${description.length} characters (expected 70-170)`);
+  }
+
+  const body = html.replace(/<script\b[\s\S]*?<\/script\s*>/gi, "").replace(/<style\b[\s\S]*?<\/style\s*>/gi, "");
+  const h1Count = (body.match(/<h1\b/gi) || []).length;
+  if (h1Count !== 1) fail(file, `expected exactly one h1, found ${h1Count}`);
+
+  const hreflangs = new Map();
+  for (const match of html.matchAll(/<link\s+rel=["']alternate["']\s+hreflang=["']([^"']+)["']\s+href=["']([^"']+)["']/gi)) {
+    hreflangs.set(match[1], match[2]);
+  }
+  for (const code of ["en", "x-default"]) {
+    if (hreflangs.get(code) !== canonical) fail(file, `hreflang="${code}" must equal the canonical URL`);
+  }
+
+  if (!SITEMAP_EXEMPT.has(rel) && !sitemapLocs.has(canonical)) fail(file, "indexable page is missing from sitemap.xml");
+}
+for (const loc of sitemapLocs) {
+  if (!indexableCanonicals.has(loc)) errors.push(`sitemap.xml: ${loc} is not an indexable page in this repository`);
+}
+
 if (errors.length) {
   console.error(`Website validation failed with ${errors.length} issue${errors.length === 1 ? "" : "s"}:`);
   for (const error of errors) console.error(`- ${error}`);
@@ -241,3 +317,4 @@ console.log(`- ${webpFiles.length} valid WebP images`);
 console.log(`- ${referenceCount} local references resolved`);
 console.log(`- JavaScript syntax and JSON-LD are valid`);
 console.log(`- Image accessibility metadata is present`);
+console.log(`- ${indexableCanonicals.size} indexable pages: titles, descriptions, H1, canonical, hreflang and sitemap checked`);

@@ -6,6 +6,8 @@
 
 - [Homepage](https://2dcreation.in/): Company overview, capabilities, factory-standard coordination, product categories, contact details, and quote request form.
 - [Apparel sourcing services](https://2dcreation.in/apparel-sourcing-services.html): End-to-end sourcing support.
+- [Apparel sourcing in India for international buyers](https://2dcreation.in/apparel-sourcing-india.html): How an order runs from brief to shipment, why Tirupur, what buyers should provide, and where a sourcing agent fits.
+- [Private label clothing sourcing](https://2dcreation.in/private-label-clothing-sourcing.html): Own-brand clothing briefs matched to manufacturers in Tirupur, with labels, packing, sampling and quality control coordinated.
 - [Product development and sampling](https://2dcreation.in/product-development-sampling.html): Technical development, prototypes, fit review, and approvals.
 - [Production and quality control](https://2dcreation.in/production-quality-control.html): Production coordination, checkpoints, and shipment readiness.
 - [T-shirt and casualwear sourcing](https://2dcreation.in/tshirt-casualwear-sourcing.html): Casualwear development and sourcing.
@@ -25,6 +27,8 @@ Practical guides written by the 2D Creation sourcing team in Tirupur. They expla
 - [T-shirt manufacturer in India](https://2dcreation.in/blog/t-shirt-manufacturer-india.html): Fabric and GSM, fit, printing, sampling rounds and quality checks for T-shirts.
 - [Sweatshirt and hoodie manufacturer in Tirupur](https://2dcreation.in/blog/sweatshirt-manufacturer-tirupur.html): Fleece types, weights, trims, printing and shrinkage control.
 - [Kidswear sourcing in Tirupur](https://2dcreation.in/blog/kidswear-sourcing-tirupur.html): Fabric, trims, size sets and destination-market safety rules for children's clothing.
+- [Fleece vs French terry](https://2dcreation.in/blog/fleece-vs-french-terry.html): How the two fabrics differ and what to specify for hoodies and sweatshirts.
+- [T-shirt shrinkage and wash testing](https://2dcreation.in/blog/t-shirt-shrinkage-wash-test.html): What to measure, how to run a wash test and how to set a tolerance.
 - [Babywear manufacturer in India](https://2dcreation.in/blog/babywear-manufacturer-india.html): Fabric, trims, labelling and testing for clothing from 0 to 24 months.
 - [How to verify an OEKO-TEX certificate](https://2dcreation.in/blog/oeko-tex-certificate-check.html): The details to check on a certificate and how to confirm it with the issuing body.
 
