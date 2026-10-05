@@ -466,7 +466,10 @@
   var headerPending = false;
   if(location.hash && location.hash !== "#top") hdr.classList.add("solid");
   function updateHeader(){
-    hdr.classList.toggle("solid", window.scrollY > 40);
+    var shouldBeSolid = window.scrollY > 40;
+    if(hdr.classList.contains("solid") !== shouldBeSolid){
+      hdr.classList.toggle("solid", shouldBeSolid);
+    }
     headerPending = false;
   }
   function queueHeader(){
@@ -633,7 +636,7 @@
       apparelObserver.observe(apparelCarousel);
     }
     updateToggle();
-    setApparel(0, false);
+    window.requestAnimationFrame(function(){ setApparel(0, false); });
   }
 
   /* ---- counters ---- */
@@ -862,6 +865,7 @@
   var LEAD_KEY="2dc.quoteSubmitted.v1";
   var choice=null;
   var analyticsLoaded=false;
+  var analyticsLoadTimer=null;
 
   try{choice=localStorage.getItem(STORAGE_KEY);}catch(e){choice=null;}
   if(choice!=="granted"&&choice!=="denied"){choice=null;}
@@ -914,6 +918,7 @@
 
   function loadAnalytics(){
     if(analyticsLoaded||choice!=="granted"){return;}
+    if(analyticsLoadTimer){window.clearTimeout(analyticsLoadTimer);analyticsLoadTimer=null;}
     analyticsLoaded=true;
     window.gtag("consent","update",{
       analytics_storage:"granted",
@@ -930,6 +935,27 @@
     sendLeadIfConfirmed();
   }
 
+  function scheduleAnalyticsLoad(){
+    if(choice!=="granted"||analyticsLoaded||analyticsLoadTimer){return;}
+    /* Delay returning visitors' GA load so critical rendering finishes first. */
+    analyticsLoadTimer=window.setTimeout(function(){
+      analyticsLoadTimer=null;
+      loadAnalytics();
+    },10000);
+  }
+
+  function bootstrapAnalyticsOnInteraction(){
+    if(choice!=="granted"||analyticsLoaded){return;}
+    loadAnalytics();
+  }
+
+  function attachAnalyticsBootstrap(){
+    if(choice!=="granted"||analyticsLoaded){return;}
+    ["pointerdown","keydown","wheel","touchstart","scroll"].forEach(function(type){
+      document.addEventListener(type,bootstrapAnalyticsOnInteraction,{once:true,capture:true,passive:true});
+    });
+  }
+
   function setConsent(value){
     persist(value);
     window.gtag("consent","update",{
@@ -938,8 +964,12 @@
       ad_user_data:"denied",
       ad_personalization:"denied"
     });
-    if(value==="granted"){loadAnalytics();}
-    else{clearAnalyticsCookies();}
+    if(value==="granted"){
+      loadAnalytics();
+    }else{
+      if(analyticsLoadTimer){window.clearTimeout(analyticsLoadTimer);analyticsLoadTimer=null;}
+      clearAnalyticsCookies();
+    }
   }
 
   function ready(fn){
@@ -1030,8 +1060,8 @@
     });
   }
 
-  ready(function(){buildConsentUI();attachEventTracking();});
-  if(choice==="granted"){loadAnalytics();}
+  ready(function(){buildConsentUI();attachEventTracking();attachAnalyticsBootstrap();});
+  if(choice==="granted"){scheduleAnalyticsLoad();}
 })();
 </script>
 <script>
