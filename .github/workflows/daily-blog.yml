@@ -1,0 +1,47 @@
+name: Daily blog
+
+# Publishes one SEO-gated article a day to /blog/ (replaces the deleted Railway dashboard's scheduler).
+# 10:00 IST = 04:30 UTC; two later runs retry if GitHub was down. The run is idempotent: once today's article is
+# published (or committed and verified) any further run exits at once.
+on:
+  schedule:
+    - cron: "30 4 * * *"
+    - cron: "30 5 * * *"
+    - cron: "30 6 * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Run even before 10:00 IST"
+        required: false
+        default: "false"
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: daily-blog
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Generate, gate and publish today's article
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: "24"
+
+      - name: Run the blog tool tests
+        run: node --test .github/blog-tools/test/*.test.js
+
+      - name: Publish today's article
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FORCE: ${{ inputs.force }}
+        run: node .github/blog-tools/run-daily.js
