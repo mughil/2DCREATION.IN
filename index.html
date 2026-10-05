@@ -36,10 +36,14 @@
 (function(){
   try{
     var params=new URLSearchParams(window.location.search);
+    var legacy=window.location.pathname==="/index.html";
+    if(!legacy){return;}
     if(params.has("product")){
       var product=params.get("product");
       if(product){sessionStorage.setItem("2dc.productFromLegacyUrl.v1",product);}
       history.replaceState(null,document.title,"/#quote");
+    }else{
+      history.replaceState(null,document.title,"/"+window.location.hash);
     }
   }catch(e){}
 })();
