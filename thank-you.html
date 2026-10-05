@@ -29,6 +29,19 @@ h1{margin:0;font-size:clamp(38px,7vw,64px);line-height:1.02;letter-spacing:-.045
 .note a{color:var(--olive);font-weight:700}
 footer{padding:24px;text-align:center;color:#697361;font-size:13px}
 </style>
+<script>
+(function(){
+  document.addEventListener("click",function(e){
+    var link=e.target.closest("[data-whatsapp-url]");
+    if(!link)return;
+    var url=link.getAttribute("data-whatsapp-url");
+    if(!url)return;
+    e.preventDefault();
+    var opened=window.open(url,"_blank","noopener,noreferrer");
+    if(!opened){window.location.href=url;}
+  });
+})();
+</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to main content</a>
@@ -41,7 +54,7 @@ footer{padding:24px;text-align:center;color:#697361;font-size:13px}
 <p class="copy">Your quote request has been sent to 2D Creation. Our sourcing team will review the details and contact you using the email address or phone number you provided.</p>
 <div class="actions">
 <a class="btn" href="/">Return to homepage</a>
-<a class="btn secondary" href="https://wa.me/919791881884" target="_blank" rel="noopener noreferrer">Message on WhatsApp</a>
+<a class="btn secondary" href="/" data-whatsapp-url="https://wa.me/919791881884">Message on WhatsApp</a>
 </div>
 <p class="note">Need to add something? Email <a href="mailto:karthick@2dcreation.in">karthick@2dcreation.in</a>.</p>
 </section>

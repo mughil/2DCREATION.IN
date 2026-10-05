@@ -32,6 +32,18 @@
 <meta name="theme-color" content="#1E2A13">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="canonical" href="https://2dcreation.in/">
+<script>
+(function(){
+  try{
+    var params=new URLSearchParams(window.location.search);
+    if(params.has("product")){
+      var product=params.get("product");
+      if(product){sessionStorage.setItem("2dc.productFromLegacyUrl.v1",product);}
+      history.replaceState(null,document.title,"/#quote");
+    }
+  }catch(e){}
+})();
+</script>
 <link rel="alternate" hreflang="en" href="https://2dcreation.in/">
 <link rel="alternate" hreflang="x-default" href="https://2dcreation.in/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -43,7 +55,7 @@
   "@graph":[
     {"@type":"Organization","@id":"https://2dcreation.in/#organization","name":"2D Creation","alternateName":"2D Creation Apparel Sourcing","url":"https://2dcreation.in/","description":"A global apparel sourcing partner based in Tirupur, Tamil Nadu, India, supporting international buyers with product development, fabric sourcing, sampling, production, quality control, merchandising, and shipping coordination.","disambiguatingDescription":"2D Creation at 2dcreation.in is an apparel sourcing and garment development business serving international buyers. It is not an office stationery wholesaler and is not affiliated with unrelated local businesses using the same or a similar name.","email":"karthick@2dcreation.in","telephone":"+91 97918 81884","address":{"@type":"PostalAddress","addressLocality":"Tirupur","addressRegion":"Tamil Nadu","addressCountry":"IN"},"areaServed":"Worldwide","knowsAbout":["Apparel sourcing","Garment product development","Fabric sourcing","Garment sampling","Apparel production","Garment quality control","Merchandising","Shipping coordination"],"sameAs":["https://www.linkedin.com/in/karthick-subramaniamm"],"hasOfferCatalog":{"@type":"OfferCatalog","name":"Apparel sourcing services","itemListElement":[{"@type":"OfferCatalog","name":"Product development"},{"@type":"OfferCatalog","name":"Fabric sourcing"},{"@type":"OfferCatalog","name":"Sampling"},{"@type":"OfferCatalog","name":"Production coordination"},{"@type":"OfferCatalog","name":"Quality control"},{"@type":"OfferCatalog","name":"Merchandising and logistics"}]}},
     {"@type":"WebSite","@id":"https://2dcreation.in/#website","url":"https://2dcreation.in/","name":"2D Creation","inLanguage":"en","publisher":{"@id":"https://2dcreation.in/#organization"}},
-    {"@type":"WebPage","@id":"https://2dcreation.in/#webpage","url":"https://2dcreation.in/","name":"Apparel Sourcing Company in Tirupur | 2D Creation","description":"Global apparel sourcing, product development and production coordination from Tirupur, India.","dateModified":"2026-09-01","inLanguage":"en","isPartOf":{"@id":"https://2dcreation.in/#website"},"about":{"@id":"https://2dcreation.in/#organization"}},
+    {"@type":"WebPage","@id":"https://2dcreation.in/#webpage","url":"https://2dcreation.in/","name":"Apparel Sourcing Company in Tirupur | 2D Creation","description":"Global apparel sourcing, product development and production coordination from Tirupur, India.","dateModified":"2026-10-05","inLanguage":"en","isPartOf":{"@id":"https://2dcreation.in/#website"},"about":{"@id":"https://2dcreation.in/#organization"}},
     {"@type":"FAQPage","@id":"https://2dcreation.in/#quick-answers","isPartOf":{"@id":"https://2dcreation.in/#webpage"},"mainEntity":[{"@type":"Question","name":"What is 2D Creation?","acceptedAnswer":{"@type":"Answer","text":"2D Creation is a global apparel sourcing partner based in Tirupur, Tamil Nadu, India. The company supports international fashion brands and buyers by coordinating product development, fabric and trim sourcing, sampling, garment production, quality control, and shipping according to buyer specifications."}},{"@type":"Question","name":"What apparel sourcing services does 2D Creation provide?","acceptedAnswer":{"@type":"Answer","text":"Services include design coordination, product development, fabric sourcing, sampling, production coordination, quality control, merchandising, and shipping coordination."}},{"@type":"Question","name":"What garments can 2D Creation source?","acceptedAnswer":{"@type":"Answer","text":"Capabilities include men's wear, women's wear, kidswear, casualwear, T-shirts, shirts, sweatshirts, hoodies, loungewear, and nightwear."}},{"@type":"Question","name":"How can a buyer request an apparel sourcing quote?","acceptedAnswer":{"@type":"Answer","text":"Buyers can use the website enquiry form or contact 2D Creation by email, phone, or WhatsApp with the product type, target quantity, delivery market, reference files, and required date."}},{"@type":"Question","name":"Is 2D Creation an office stationery wholesaler?","acceptedAnswer":{"@type":"Answer","text":"No. 2D Creation at 2dcreation.in is a global apparel sourcing and garment development partner based in Tirupur, serving international fashion brands and buyers. It is not affiliated with unrelated office stationery businesses using the same or a similar name."}}]},
     {"@type":"BreadcrumbList","@id":"https://2dcreation.in/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://2dcreation.in/"}]}
   ]
@@ -411,7 +423,7 @@
     <h2>2D Creation</h2>
     <p class="tag">Global Apparel Sourcing Partner</p>
     <div class="socials" role="group" aria-label="Contact links">
-      <a href="https://wa.me/919791881884" target="_blank" rel="noopener noreferrer" aria-label="Message 2D Creation on WhatsApp"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg></a>
+      <a href="#contact" data-whatsapp-url="https://wa.me/919791881884" aria-label="Message 2D Creation on WhatsApp"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg></a>
       <a href="https://www.linkedin.com/in/karthick-subramaniamm" target="_blank" rel="noopener noreferrer" aria-label="2D Creation on LinkedIn"><span class="in" aria-hidden="true">in</span></a>
       <a href="mailto:karthick@2dcreation.in?subject=Apparel%20Sourcing%20Enquiry" aria-label="Email 2D Creation"><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg></a>
     </div>
@@ -685,9 +697,11 @@
 
   /* Carry the selected garment from a category page into the quote request. */
   var productFromPage = new URLSearchParams(window.location.search).get("product");
+  if(!productFromPage){try{productFromPage=sessionStorage.getItem("2dc.productFromLegacyUrl.v1")||"";}catch(e){productFromPage="";}}
   if(productFromPage && Array.from(form.elements.product.options).some(function(option){return option.value === productFromPage;})){
     form.elements.product.value = productFromPage;
   }
+  try{sessionStorage.removeItem("2dc.productFromLegacyUrl.v1");}catch(e){}
   /* Category-page CTAs link to /#quote (no query URL); pick the garment from the page the visitor came from. */
   var cameFrom = String(document.referrer || "");
   if(!productFromPage && window.location.hash === "#quote" && cameFrom.indexOf(window.location.origin + "/") === 0){
@@ -994,8 +1008,15 @@
     document.querySelectorAll('a[href^="tel:"]').forEach(function(link){
       link.addEventListener("click",function(){track("contact_click",{contact_method:"phone"});});
     });
-    document.querySelectorAll('a[href*="wa.me/"]').forEach(function(link){
-      link.addEventListener("click",function(){track("contact_click",{contact_method:"whatsapp"});});
+    document.querySelectorAll("[data-whatsapp-url]").forEach(function(link){
+      link.addEventListener("click",function(e){
+        var url=link.getAttribute("data-whatsapp-url");
+        if(!url)return;
+        e.preventDefault();
+        track("contact_click",{contact_method:"whatsapp"});
+        var opened=window.open(url,"_blank","noopener,noreferrer");
+        if(!opened){window.location.href=url;}
+      });
     });
     document.querySelectorAll('form[action*="formsubmit.co"]').forEach(function(form){
       form.addEventListener("submit",function(event){
