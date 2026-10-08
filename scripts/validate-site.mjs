@@ -275,6 +275,10 @@ for (const file of htmlFiles) {
   else if (canonical !== expectedCanonical(rel)) fail(file, `canonical "${canonical}" does not match the page URL`);
   else indexableCanonicals.add(canonical);
 
+  const openGraphUrls = [...html.matchAll(/<meta\s+property=["']og:url["']\s+content=["']([^"']+)["']/gi)].map(match => match[1]);
+  if (openGraphUrls.length !== 1) fail(file, `expected exactly one Open Graph URL, found ${openGraphUrls.length}`);
+  else if (openGraphUrls[0] !== canonical) fail(file, `Open Graph URL "${openGraphUrls[0]}" does not match the canonical URL`);
+
   const titleMatch = html.match(/<title>([\s\S]*?)<\/title>/i);
   const title = titleMatch ? decodeEntities(titleMatch[1].trim()) : "";
   if (!title) fail(file, "indexable page is missing a title");
