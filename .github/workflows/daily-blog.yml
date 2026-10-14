@@ -4,10 +4,6 @@ name: Daily blog
 # 10:00 IST = 04:30 UTC; two later runs retry if GitHub was down. The run is idempotent: once today's article is
 # published (or committed and verified) any further run exits at once.
 on:
-  schedule:
-    - cron: "30 4 * * *"
-    - cron: "30 5 * * *"
-    - cron: "30 6 * * *"
   workflow_dispatch:
     inputs:
       force:
