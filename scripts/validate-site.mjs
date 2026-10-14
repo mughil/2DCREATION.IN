@@ -41,7 +41,6 @@ const expectedPages = [
   "404.html",
   "apparel-sourcing-india.html",
   "apparel-sourcing-services.html",
-  "departement.html",
   "faq.html",
   "hoodie-sweatshirt-sourcing.html",
   "index.html",
