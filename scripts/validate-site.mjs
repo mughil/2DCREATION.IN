@@ -284,8 +284,8 @@ for (const file of htmlFiles) {
   if (!title) fail(file, "indexable page is missing a title");
   else if (title.length > 70) fail(file, `title is ${title.length} characters (maximum 70)`);
 
-  const descMatch = html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i);
-  const description = descMatch ? decodeEntities(descMatch[1].trim()) : "";
+  const descMatch = html.match(/<meta\s+name=["']description["']\s+content=(?:"([^"]*)"|'([^']*)')/i);
+  const description = descMatch ? decodeEntities((descMatch[1] ?? descMatch[2]).trim()) : "";
   if (!description) fail(file, "indexable page is missing a meta description");
   else if (description.length < 70 || description.length > 170) {
     fail(file, `meta description is ${description.length} characters (expected 70-170)`);

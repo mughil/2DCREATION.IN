@@ -232,7 +232,7 @@ const RELATED_PAGES = ['services', 'sampling', 'qc', 'faq', 'tshirt', 'hoodie', 
 const AUTHOR_LINE = '*Written by the 2D Creation sourcing team in Tirupur, India, who coordinate product development, sampling, production follow-up and quality control for international apparel buyers.*';
 const BAD_ANCHORS = /\[(click here|here|read more|this page|link)\]\(/i;
 
-function titleCase(s) { return s.replace(/\b([a-z])/g, (m, c, i) => (i && /^(in|of|and|for|to|a|an|the|vs)\b/.test(s.slice(i)) ? c : c.toUpperCase())); }
+function titleCase(s) { return s.replace(/(^|[^A-Za-z'’])([a-z])/g, (m, pre, c, i) => (i && /^(in|of|and|for|to|a|an|the|vs)\b/.test(s.slice(i + pre.length)) ? m : pre + c.toUpperCase())); }
 
 function optimizedTitle(post) {
   const kw = titleCase(String(post.keyword || '').trim());
