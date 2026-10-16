@@ -18,3 +18,4 @@
 .article-page .page-hero h1{font-size:clamp(32px,5vw,52px);line-height:1.2;letter-spacing:-.02em}
 .article-page .lede{max-width:none}.article-page .breadcrumb{line-height:1.6}
 @media(max-width:600px){.blog-article{font-size:16px;line-height:1.8}.blog-article h2{margin-top:1.75em}.article-page .page-hero{padding:42px 0 48px}}
+.data-table + p{display:block;margin-top:48px;max-width:100%}.card-grid + p{display:block;margin-top:48px;max-width:100%}.hero-visual figcaption{left:30px;right:30px;bottom:28px;max-width:78%;text-align:left;line-height:1.45;text-wrap:balance;text-shadow:0 1px 3px rgba(0,0,0,.35)}
