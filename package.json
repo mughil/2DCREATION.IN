@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "scripts": {
+    "test": "node --test scripts/*.test.mjs",
+    "validate": "node scripts/validate-site.mjs"
+  },
+  "devDependencies": {
+    "parse5": "8.0.0"
+  }
+}

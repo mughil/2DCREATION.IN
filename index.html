@@ -414,7 +414,7 @@
     <h2>2D Creation</h2>
     <p class="tag">Global Apparel Sourcing Partner</p>
     <div class="socials" role="group" aria-label="Contact links">
-      <a href="#contact" data-whatsapp-url="https://wa.me/919791881884" aria-label="Message 2D Creation on WhatsApp"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg></a>
+      <a href="https://wa.me/919791881884" target="_blank" rel="noopener noreferrer" aria-label="Message 2D Creation on WhatsApp"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg></a>
       <a href="https://www.linkedin.com/company/143897420/" target="_blank" rel="noopener noreferrer" aria-label="2D Creation on LinkedIn"><span class="in" aria-hidden="true">in</span></a>
       <a href="mailto:karthick@2dcreation.in?subject=Apparel%20Sourcing%20Enquiry" aria-label="Email 2D Creation"><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg></a>
     </div>
@@ -979,14 +979,9 @@
     document.querySelectorAll('a[href^="tel:"]').forEach(function(link){
       link.addEventListener("click",function(){track("contact_click",{contact_method:"phone"});});
     });
-    document.querySelectorAll("[data-whatsapp-url]").forEach(function(link){
-      link.addEventListener("click",function(e){
-        var url=link.getAttribute("data-whatsapp-url");
-        if(!url)return;
-        e.preventDefault();
+    document.querySelectorAll('a[href^="https://wa.me/"]').forEach(function(link){
+      link.addEventListener("click",function(){
         track("contact_click",{contact_method:"whatsapp"});
-        var opened=window.open(url,"_blank","noopener,noreferrer");
-        if(!opened){window.location.href=url;}
       });
     });
     document.querySelectorAll('form[action*="formsubmit.co"]').forEach(function(form){

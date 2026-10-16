@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import vm from "node:vm";
+import { htmlMetadata } from "./html-metadata.mjs";
 import { isHomepageIndexLink, HOMEPAGE_LINK_MESSAGE } from "./homepage-links.mjs";
 
 const root = process.cwd();
@@ -245,16 +246,6 @@ if (fs.existsSync(sitemapPath)) {
   errors.push("sitemap.xml: file is missing");
 }
 
-function decodeEntities(value) {
-  return value
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;|&apos;/g, "'")
-    .replace(/&rsquo;/g, "\u2019");
-}
-
 function expectedCanonical(rel) {
   if (rel === "index.html") return `${SITE_ORIGIN}/`;
   if (rel.endsWith("/index.html")) return `${SITE_ORIGIN}/${rel.slice(0, -"index.html".length)}`;
@@ -278,20 +269,15 @@ for (const file of htmlFiles) {
   if (openGraphUrls.length !== 1) fail(file, `expected exactly one Open Graph URL, found ${openGraphUrls.length}`);
   else if (openGraphUrls[0] !== canonical) fail(file, `Open Graph URL "${openGraphUrls[0]}" does not match the canonical URL`);
 
-  const titleMatch = html.match(/<title>([\s\S]*?)<\/title>/i);
-  const title = titleMatch ? decodeEntities(titleMatch[1].trim()) : "";
+  const { title, description, h1Count } = htmlMetadata(html);
   if (!title) fail(file, "indexable page is missing a title");
   else if (title.length > 70) fail(file, `title is ${title.length} characters (maximum 70)`);
 
-  const descMatch = html.match(/<meta\s+name=["']description["']\s+content=(?:"([^"]*)"|'([^']*)')/i);
-  const description = descMatch ? decodeEntities((descMatch[1] ?? descMatch[2]).trim()) : "";
   if (!description) fail(file, "indexable page is missing a meta description");
   else if (description.length < 70 || description.length > 170) {
     fail(file, `meta description is ${description.length} characters (expected 70-170)`);
   }
 
-  const body = html.replace(/<script\b[\s\S]*?<\/script\s*>/gi, "").replace(/<style\b[\s\S]*?<\/style\s*>/gi, "");
-  const h1Count = (body.match(/<h1\b/gi) || []).length;
   if (h1Count !== 1) fail(file, `expected exactly one h1, found ${h1Count}`);
 
   const hreflangs = new Map();
