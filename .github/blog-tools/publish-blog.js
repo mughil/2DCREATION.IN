@@ -150,7 +150,7 @@ function postPage(post) {
 ${ANALYTICS_HEAD}<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${title}</title>
 <meta name="description" content="${meta}">
-<meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="${url}">${hreflang(url)}
+<meta name="robots" content="noindex,follow"><link rel="canonical" href="${url}">${hreflang(url)}
 <meta property="og:type" content="article"><meta property="og:site_name" content="2D Creation"><meta property="og:title" content="${title}"><meta property="og:description" content="${meta}"><meta property="og:url" content="${url}"><meta property="og:image" content="${SITE}/og-image.jpg">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/seo-pages.css">
@@ -180,7 +180,7 @@ function indexPage(posts) {
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Blog | 2D Creation - Apparel Sourcing in Tirupur</title>
 <meta name="description" content="Practical guides on apparel sourcing, sampling and quality control from 2D Creation, a sourcing agent in Tirupur, India.">
-<meta name="robots" content="index,follow"><link rel="canonical" href="${SITE}/blog/">
+<meta name="robots" content="noindex,follow"><link rel="canonical" href="${SITE}/blog/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/seo-pages.css">
 </head>
@@ -206,16 +206,6 @@ function addCardToIndex(html, post) {
   const marker = '<div class="card-grid">';
   if (!html.includes(marker)) throw new Error('blog/index.html has no card grid to add the article to');
   return html.replace(/<div class="card-grid">(<p>New articles are published here regularly\.<\/p>)?/, `${marker}${cardFor(post)}`);
-}
-
-async function updateSitemap(url) {
-  const entry = `  <url><loc>${url}</loc><lastmod>${new Date().toISOString().slice(0, 10)}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-`;
-  await updateFile('sitemap.xml', (text) => {
-    if (text === null) return null;                       // no sitemap on this site: nothing to do
-    if (text.includes(`<loc>${url}</loc>`)) return text;  // already listed
-    return text.replace('</urlset>', `${entry}</urlset>`);
-  }, `blog: add ${url} to sitemap`);
 }
 
 function unescapeHtml(s) {
@@ -291,7 +281,7 @@ async function publishPost(post, allPublishedPosts) {
   await updateFile('blog/index.html', (text) => (text ? addCardToIndex(text, post) : indexPage(mergeIndexEntries('', [post, ...allPublishedPosts]))),
     `blog: update index with "${post.title}"`);
 
-  await updateSitemap(expectedUrl);
+  // blog posts are noindex (2026-10-16), so they stay out of sitemap.xml
   return { url: expectedUrl, already: false, resumed: Boolean(existing) };
 }
 

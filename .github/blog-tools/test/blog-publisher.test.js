@@ -17,7 +17,7 @@ function use(site) {
   return site;
 }
 
-test('publishes the page, merges the index, and adds the sitemap entry once', async () => {
+test('publishes the page, merges the index, and keeps the noindex post out of the sitemap', async () => {
   const site = use(freshSite());
   const result = await pub.publishPost(POST, []);
   assert.deepEqual(result, { url: URL, already: false, resumed: false });
@@ -25,7 +25,7 @@ test('publishes the page, merges the index, and adds the sitemap entry once', as
   const index = site.files.get('blog/index.html');
   for (const slug of ['old-guide-one', 'old-guide-two', POST.slug]) assert.ok(index.includes(`/blog/${slug}.html`), slug);
   assert.ok(index.includes('Old &amp; Guide Two'), 'existing entries survive without double-escaping');
-  assert.equal((site.files.get('sitemap.xml').match(new RegExp(`<loc>${URL}</loc>`, 'g')) || []).length, 1);
+  assert.equal((site.files.get('sitemap.xml').match(new RegExp(`<loc>${URL}</loc>`, 'g')) || []).length, 0);
   assert.equal(site.put(PATH).length, 1);
 });
 
@@ -47,16 +47,7 @@ test('RETRY IDEMPOTENCY: a failure after the page commit is resumed without a se
   assert.equal(site.put(PATH).length, 1, 'the page is NOT written a second time');
   const index = site.files.get('blog/index.html');
   assert.equal((index.match(new RegExp(`/blog/${POST.slug}\\.html`, 'g')) || []).length, 1, 'listed exactly once');
-  assert.equal((site.files.get('sitemap.xml').match(new RegExp(`<loc>${URL}</loc>`, 'g')) || []).length, 1);
-});
-
-test('a retry after the sitemap step failed also finishes cleanly', async () => {
-  const site = use(freshSite());
-  site.failNext((m, path) => m === 'PUT' && path === 'sitemap.xml', 502, 1);
-  await assert.rejects(() => pub.publishPost(POST, []));
-  await pub.publishPost(POST, []);
-  assert.equal(site.put(PATH).length, 1);
-  assert.equal((site.files.get('sitemap.xml').match(/<loc>/g) || []).length, 2);
+  assert.equal((site.files.get('sitemap.xml').match(new RegExp(`<loc>${URL}</loc>`, 'g')) || []).length, 0);
 });
 
 test('SLUG COLLISION: a page that is not ours is never overwritten', async () => {
