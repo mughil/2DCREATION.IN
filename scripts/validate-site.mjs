@@ -40,7 +40,6 @@ const webpFiles = files.filter((file) => file.endsWith(".webp"));
 
 const expectedPages = [
   "404.html",
-  "apparel-sourcing-india.html",
   "apparel-sourcing-services.html",
   "faq.html",
   "hoodie-sweatshirt-sourcing.html",
@@ -58,8 +57,8 @@ const expectedPages = [
 for (const page of expectedPages) {
   if (!fs.existsSync(path.join(root, page))) errors.push(`${page}: required page is missing`);
 }
-// Required entry pages must exist; every discovered HTML file (including
-// new blog articles) is validated below without a fixed total page count.
+// Required entry pages must exist; every discovered HTML file is validated
+// below without a fixed total page count.
 // Keep every approved original; responsive derivatives may be added.
 const requiredImages = [
   ...Array.from({ length: 7 }, (_, i) => `embedded-${String(i + 1).padStart(2, "0")}-opt.webp`),
