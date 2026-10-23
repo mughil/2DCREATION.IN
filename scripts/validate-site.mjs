@@ -230,6 +230,17 @@ for (const file of webpFiles) {
   if (!valid) fail(file, "invalid WebP file signature");
 }
 
+// ---- Unclosed meta tag checks ---------------------------------------------
+// Every <meta> tag must be properly closed with '>'. An unclosed meta tag
+// absorbs following content into the tag in the parser, silently breaking
+// description, Open Graph and Twitter card metadata.
+for (const file of htmlFiles) {
+  const html = htmlByFile.get(file);
+  for (const match of html.matchAll(/<meta\b[^>]*$/gim)) {
+    fail(file, `unclosed meta tag missing closing '>': ${match[0].trim()}`);
+  }
+}
+
 // ---- SEO metadata checks -------------------------------------------------
 // Every indexable page needs one H1, a title and description of sensible length,
 // a canonical that matches its own URL, matching hreflang tags, and a sitemap entry.
