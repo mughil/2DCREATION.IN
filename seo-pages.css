@@ -2,20 +2,9 @@
 .data-table + p{margin-top:28px;max-width:100%}.card-grid + p{margin-top:28px;max-width:100%}.hero-visual figcaption{left:28px;right:28px;bottom:24px;max-width:82%;text-align:left;line-height:1.4}/* Buyer review tables use the existing responsive table layout. */
 .buyer-note{max-width:880px;margin-top:26px;color:var(--muted);font-size:16px}.buyer-note a{color:var(--olive-600);text-decoration:underline;text-underline-offset:3px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-/* Readable article typography after the shared component reset. */
-.blog-article{max-width:760px;margin-inline:auto;font-size:17px;line-height:1.8;text-align:left;overflow-wrap:anywhere}
-.blog-article p{margin:0 0 1.25em}
-.blog-article h2{margin:2em 0 .65em;font-size:clamp(24px,3vw,30px);line-height:1.3;letter-spacing:-.015em;scroll-margin-top:100px}
-.blog-article h3{margin:1.5em 0 .55em;font-size:clamp(19px,2.4vw,22px);line-height:1.4;letter-spacing:0;scroll-margin-top:100px}
-.blog-article ul,.blog-article ol{margin:0 0 1.5em;padding-left:1.5em}
-.blog-article ul{list-style:disc}.blog-article ol{list-style:decimal}
-.blog-article li{margin-bottom:.65em;padding-left:.2em}
-.blog-article a{color:var(--olive-600);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
-.blog-article a:hover{color:var(--orange)}
-.blog-article>p:first-child{padding-bottom:1.25em;border-bottom:1px solid var(--line);color:var(--muted)}
-.blog-article>:last-child{margin-bottom:0}
+
 .article-page .page-hero .wrap{max-width:760px}
 .article-page .page-hero h1{font-size:clamp(32px,5vw,52px);line-height:1.2;letter-spacing:-.02em}
 .article-page .lede{max-width:none}.article-page .breadcrumb{line-height:1.6}
-@media(max-width:600px){.blog-article{font-size:16px;line-height:1.8}.blog-article h2{margin-top:1.75em}.article-page .page-hero{padding:42px 0 48px}}
+@media(max-width:600px){.article-page .page-hero{padding:42px 0 48px}}
 .data-table + p{display:block;margin-top:48px;max-width:100%}.card-grid + p{display:block;margin-top:48px;max-width:100%}.hero-visual figcaption{left:30px;right:30px;bottom:28px;max-width:78%;text-align:left;line-height:1.45;text-wrap:balance;text-shadow:0 1px 3px rgba(0,0,0,.35)}
