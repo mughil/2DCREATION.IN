@@ -54,7 +54,6 @@
 
   --lg-oeko:url("./embedded-01-opt.webp");
   --lg-wrap:url("./embedded-02-opt.webp");
-  --lg-disney:url("./embedded-03-opt.webp");
   --lg-bci:url("./embedded-04-opt.webp");
   --lg-bsci:url("./embedded-05-opt.webp");
   --lg-smeta:url("./embedded-06-opt.webp");
@@ -279,10 +278,9 @@ ol,ul{margin:0;padding:0;list-style:none}
   height:calc(var(--h)*1px*var(--cs));
   width:calc(var(--h)*var(--ar)*1px*var(--cs));
   background-repeat:no-repeat;background-position:center center;background-size:contain}
-.l-oeko{--h:46;--ar:2.7381}.l-wrap{--h:66;--ar:1.0625}.l-disney{--h:50;--ar:2.4574}.l-bci{--h:44;--ar:2.8228}.l-bsci{--h:56;--ar:2.2037}.l-smeta{--h:42;--ar:3.0256}.l-grs{--h:54;--ar:2.1132}
+.l-oeko{--h:46;--ar:2.7381}.l-wrap{--h:66;--ar:1.0625}.l-bci{--h:44;--ar:2.8228}.l-bsci{--h:56;--ar:2.2037}.l-smeta{--h:42;--ar:3.0256}.l-grs{--h:54;--ar:2.1132}
 .cert-marquee.logos-ready .l-oeko{background-image:var(--lg-oeko)}
 .cert-marquee.logos-ready .l-wrap{background-image:var(--lg-wrap)}
-.cert-marquee.logos-ready .l-disney{background-image:var(--lg-disney)}
 .cert-marquee.logos-ready .l-bci{background-image:var(--lg-bci)}
 .cert-marquee.logos-ready .l-bsci{background-image:var(--lg-bsci)}
 .cert-marquee.logos-ready .l-smeta{background-image:var(--lg-smeta)}
