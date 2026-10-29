@@ -40,7 +40,6 @@ const webpFiles = files.filter((file) => file.endsWith(".webp"));
 
 const expectedPages = [
   "404.html",
-  "apparel-sourcing-services.html",
   "faq.html",
   "hoodie-sweatshirt-sourcing.html",
   "index.html",

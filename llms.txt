@@ -5,7 +5,6 @@
 ## Primary pages
 
 - [Homepage](https://2dcreation.in/): Company overview, capabilities, factory-standard coordination, product categories, contact details, and quote request form.
-- [Apparel sourcing services](https://2dcreation.in/apparel-sourcing-services.html): End-to-end sourcing support.
 - [Private label clothing sourcing](https://2dcreation.in/private-label-clothing-sourcing.html): Own-brand clothing briefs matched to manufacturers in Tirupur, with labels, packing, sampling and quality control coordinated.
 - [Product development and sampling](https://2dcreation.in/product-development-sampling.html): Technical development, prototypes, fit review, and approvals.
 - [Production and quality control](https://2dcreation.in/production-quality-control.html): Production coordination, checkpoints, and shipment readiness.
