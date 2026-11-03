@@ -315,9 +315,34 @@ function collectIds(node, ids, refs) {
   else if (node["@id"]) ids.add(node["@id"]);
   for (const value of Object.values(node)) collectIds(value, ids, refs);
 }
+const BLOCK_TAGS = new Set(["p", "div", "li", "summary", "article", "h1", "h2", "h3", "h4", "h5", "h6"]);
+const ENTITIES = { rsquo: "\u2019", "#8217": "\u2019", amp: "&", quot: '"', nbsp: " " };
+// Plain-text extraction without regex tag filtering: scan tag by tag, drop
+// script/style bodies, and decode entities in a single pass (no double-unescape).
 function plainText(html) {
-  return html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/gi, " ").replace(/<\/(p|h\d|li|summary|article|div)>/gi, "$& ").replace(/<[^>]+>/g, "")
-    .replace(/&rsquo;|&#8217;/g, "\u2019").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&nbsp;/g, " ")
+  const lower = html.toLowerCase();
+  let out = "";
+  let i = 0;
+  while (i < html.length) {
+    const lt = html.indexOf("<", i);
+    if (lt === -1) { out += html.slice(i); break; }
+    out += html.slice(i, lt);
+    const gt = html.indexOf(">", lt);
+    if (gt === -1) break;
+    const tag = lower.slice(lt + 1, gt).trim();
+    const closing = tag.startsWith("/");
+    const name = (closing ? tag.slice(1) : tag).split(/[\s/]/)[0];
+    if (!closing && (name === "script" || name === "style")) {
+      const close = lower.indexOf("</" + name, gt);
+      const closeEnd = close === -1 ? -1 : html.indexOf(">", close);
+      out += " ";
+      i = closeEnd === -1 ? html.length : closeEnd + 1;
+      continue;
+    }
+    if (closing && BLOCK_TAGS.has(name)) out += " ";
+    i = gt + 1;
+  }
+  return out.replace(/&(rsquo|#8217|amp|quot|nbsp);/g, (_, entity) => ENTITIES[entity])
     .replace(/\s+/g, " ").toLowerCase();
 }
 const siteIds = new Set();
