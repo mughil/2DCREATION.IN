@@ -280,11 +280,11 @@ for (const file of htmlFiles) {
 
   const { title, description, h1Count } = htmlMetadata(html);
   if (!title) fail(file, "indexable page is missing a title");
-  else if (title.length > 70) fail(file, `title is ${title.length} characters (maximum 70)`);
+  else if (title.length > 60) fail(file, `title is ${title.length} characters (maximum 60)`);
 
   if (!description) fail(file, "indexable page is missing a meta description");
-  else if (description.length < 70 || description.length > 170) {
-    fail(file, `meta description is ${description.length} characters (expected 70-170)`);
+  else if (description.length < 120 || description.length > 160) {
+    fail(file, `meta description is ${description.length} characters (expected 120-160)`);
   }
 
   if (h1Count !== 1) fail(file, `expected exactly one h1, found ${h1Count}`);
@@ -301,6 +301,90 @@ for (const file of htmlFiles) {
 }
 for (const loc of sitemapLocs) {
   if (!indexableCanonicals.has(loc)) errors.push(`sitemap.xml: ${loc} is not an indexable page in this repository`);
+}
+
+// ---- Structured data and removed-page checks -----------------------------
+// Every @id reference must resolve (site-level ids live on the homepage graph),
+// and FAQPage answers must appear in the visible page text.
+const REMOVED_REFERENCES = [/\/blog(\/|\b)/i, /apparel-sourcing-india/i, /apparel-sourcing-services/i];
+function collectIds(node, ids, refs) {
+  if (Array.isArray(node)) return node.forEach(child => collectIds(child, ids, refs));
+  if (!node || typeof node !== "object") return;
+  const keys = Object.keys(node);
+  if (keys.length === 1 && keys[0] === "@id") refs.push(node["@id"]);
+  else if (node["@id"]) ids.add(node["@id"]);
+  for (const value of Object.values(node)) collectIds(value, ids, refs);
+}
+const BLOCK_TAGS = new Set(["p", "div", "li", "summary", "article", "h1", "h2", "h3", "h4", "h5", "h6"]);
+const ENTITIES = { rsquo: "\u2019", "#8217": "\u2019", amp: "&", quot: '"', nbsp: " " };
+// Plain-text extraction without regex tag filtering: scan tag by tag, drop
+// script/style bodies, and decode entities in a single pass (no double-unescape).
+function plainText(html) {
+  const lower = html.toLowerCase();
+  let out = "";
+  let i = 0;
+  while (i < html.length) {
+    const lt = html.indexOf("<", i);
+    if (lt === -1) { out += html.slice(i); break; }
+    out += html.slice(i, lt);
+    const gt = html.indexOf(">", lt);
+    if (gt === -1) break;
+    const tag = lower.slice(lt + 1, gt).trim();
+    const closing = tag.startsWith("/");
+    const name = (closing ? tag.slice(1) : tag).split(/[\s/]/)[0];
+    if (!closing && (name === "script" || name === "style")) {
+      const close = lower.indexOf("</" + name, gt);
+      const closeEnd = close === -1 ? -1 : html.indexOf(">", close);
+      out += " ";
+      i = closeEnd === -1 ? html.length : closeEnd + 1;
+      continue;
+    }
+    if (closing && BLOCK_TAGS.has(name)) out += " ";
+    i = gt + 1;
+  }
+  return out.replace(/&(rsquo|#8217|amp|quot|nbsp);/g, (_, entity) => ENTITIES[entity])
+    .replace(/\s+/g, " ").toLowerCase();
+}
+const siteIds = new Set();
+for (const file of htmlFiles) {
+  const html = htmlByFile.get(file);
+  for (const block of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+    if (relative(file) !== "index.html") continue;
+    collectIds(JSON.parse(block[1]), siteIds, []);
+  }
+}
+for (const file of htmlFiles) {
+  const html = htmlByFile.get(file);
+  const rel = relative(file);
+  for (const pattern of REMOVED_REFERENCES) {
+    if (pattern.test(html)) fail(file, `references a removed page (${pattern})`);
+  }
+  const visible = plainText(html);
+  for (const block of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+    const data = JSON.parse(block[1]);
+    const ids = new Set();
+    const refs = [];
+    collectIds(data, ids, refs);
+    for (const ref of refs) {
+      if (!ids.has(ref) && !siteIds.has(ref)) fail(file, `JSON-LD @id reference ${ref} does not resolve`);
+    }
+    for (const node of data["@graph"] || [data]) {
+      if (node["@type"] !== "FAQPage") continue;
+      for (const question of node.mainEntity || []) {
+        const answer = question.acceptedAnswer.text.replace(/\s+/g, " ").toLowerCase();
+        if (!visible.includes(question.name.toLowerCase())) fail(file, `FAQ question not visible on page: ${question.name}`);
+        if (!visible.includes(answer.replace(/ \./g, "."))) fail(file, `FAQ answer differs from visible text: ${question.name}`);
+      }
+    }
+  }
+}
+for (const extra of ["llms.txt", "robots.txt", "sitemap.xml", "manifest.webmanifest", "_headers"]) {
+  const target = path.join(root, extra);
+  if (!fs.existsSync(target)) continue;
+  const text = fs.readFileSync(target, "utf8");
+  for (const pattern of REMOVED_REFERENCES) {
+    if (pattern.test(text)) errors.push(`${extra}: references a removed page (${pattern})`);
+  }
 }
 
 if (errors.length) {
